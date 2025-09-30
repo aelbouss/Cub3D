@@ -1,7 +1,8 @@
 NAME = cub3d
 CC = cc
 CFLAGS = -Wall -Werror -Wextra
-SRCS = srcs/cub3d.c srcs/get_next_line.c srcs/get_next_line_utils.c 
+SRCS = srcs/cub3d.c srcs/get_next_line.c srcs/get_next_line_utils.c\
+srcs/environement_setup.c srcs/tilset_handling.c
 OBJS = $(SRCS:.c=.o)
 
 all : $(NAME)
