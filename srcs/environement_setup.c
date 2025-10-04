@@ -61,6 +61,9 @@ t_box	*setup_environement(char *mapfile)
 	box->cub->map = read_map(mapfile);
 	if (!box->cub->map)
 		return (NULL); // free container
+	box->plyr = malloc(1 * sizeof(t_player));
+	if (!box->plyr)
+		return (NULL);
 	extract_map_width_hight(box);
 	return (box);
 }
@@ -76,5 +79,8 @@ int	build_dependencies(t_box *box)
 		return (1); // free mlx , free cub  , free img , free core
 	if (allocate_sprites(box) != 0)
 		return (1);  // free all the container
+	box->plyr->p_y = box->cub->map_h / 2;
+	box->plyr->p_x = box->cub->map_w / 2;
 	return (0);
 }
+

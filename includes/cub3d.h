@@ -22,7 +22,7 @@
 # define	TILESIZE 64
 # define	POV	60
 # define	RES 4
-
+# define RED 0xFF0000
 
 typedef	struct s_game
 {
@@ -41,10 +41,20 @@ typedef	struct s_img
 
 }	t_img;
 
+typedef	struct s_player
+{
+	int	p_x;
+	int	p_y;
+	int	fov;
+	int pos;
+	int	dir;
+}	t_player;
+
 typedef	struct s_box
 {
 	t_game	*cub;
 	t_img	*img;
+	t_player	*plyr;
 }	t_box;
 
 // prototypes section
@@ -60,5 +70,6 @@ int		build_dependencies(t_box *box);
 int		allocate_sprites(t_box *box);
 int		draw_sprites(t_box *box);
 void	extract_map_width_hight(t_box *box);
+void	draw_player (t_box *box);
 
 # endif

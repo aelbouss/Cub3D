@@ -5,12 +5,12 @@ int	allocate_sprites(t_box *box)
 	int	h;
 	int	w;
 
-	h = TILESIZE;
-	w = TILESIZE;
-	box->img->wall = mlx_xpm_file_to_image(box->cub->mlx, "textures/wall64.xpm", &w, &h);
+	h = TILESIZE - 1;
+	w = TILESIZE - 1 ;
+	box->img->wall = mlx_xpm_file_to_image(box->cub->mlx, "textures/ard.xpm", &w, &h);
 	if (!box->img->wall)
 		return (1); // free all the  cotainer .
-	box->img->floor = mlx_xpm_file_to_image(box->cub->mlx, "textures/floor.xpm", &w, &h);
+	box->img->floor = mlx_xpm_file_to_image(box->cub->mlx, "textures/white2.xpm", &w, &h);
 	return (0);
 }
 
@@ -29,7 +29,7 @@ int	draw_sprites(t_box *box)
 			{
 				mlx_put_image_to_window(box->cub->mlx, box->cub->mlx_win, box->img->wall, x * TILESIZE, y * TILESIZE);
 			}
-			if (box->cub->map[y][x] == '0')
+			if(box->cub->map[y][x] == '0')
 			{
 				mlx_put_image_to_window(box->cub->mlx, box->cub->mlx_win, box->img->floor, x * TILESIZE, y * TILESIZE);
 			}
