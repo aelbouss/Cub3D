@@ -77,10 +77,70 @@ int	build_dependencies(t_box *box)
 			box->cub->map_h * TILESIZE, "cub3d");
 	if (!box->cub->mlx_win)
 		return (1); // free mlx , free cub  , free img , free core
-	if (allocate_sprites(box) != 0)
-		return (1);  // free all the container
 	box->plyr->p_y = box->cub->map_h / 2;
 	box->plyr->p_x = box->cub->map_w / 2;
+	box->img->wold2d = mlx_new_image(box->cub->mlx, box->cub->map_w * TILESIZE, box->cub->map_h *TILESIZE);
+	if (!box->img->wold2d)
+		return (perror("Bad Image\n"), 1);
+	box->img->img_data = mlx_get_data_addr(box->img->wold2d, &box->img->bpp, &box->img->size_line, &box->img->endian);
+	return (0);
+}
+
+void	fill_2d_world(t_box *box)
+{
+	int	y;
+	int	x;
+
+	if (push_pixels_to_image(box, box->img->wold2d, 0x3B3B3B) != 0)
+	{
+		perror("push_pixels \n");
+		return ;
+	}
+	y  = 0;
+	while (box->cub->map[y])
+	{
+		x = 0;
+		while (box->cub->map[y][x])
+		{
+			if (box->cub->map[y][x] == '1')
+			{
+				if (mlx_put_image_to_window(box->cub->mlx, box->cub->mlx_win, box->img->wold2d, x, y) != 0)
+				{
+					perror("image to  winn\n");
+					return ;
+				}
+			}
+			x++;
+		}
+	}
+	
+}
+void	put_pixel_to_image(char *img_data, int x, int y, int color, int bpp, int size_line)
+{
+	char	*pixel_addr;
+	int		offset;
+
+	offset = (y * size_line) + (x * (bpp / 8));
+	pixel_addr = img_data + offset;
+	*(unsigned int *)pixel_addr = color;
+}
+int	push_pixels_to_image(t_box *box, void *image, int color)
+{
+	int	y;
+	int	x;
+
+	printf("gggggggggggg");
+	y = 0;
+	while (y < 64)
+	{
+		x = 0;
+		while (x < 64)
+		{
+			put_pixel_to_image(image, x, y, color, box->img->bpp, box->img->size_line);
+			x++;
+		}
+		y++;
+	}	
 	return (0);
 }
 

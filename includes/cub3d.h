@@ -35,10 +35,11 @@ typedef	struct s_game
 
 typedef	struct s_img
 {
-	void	*player;
-	void	*wall;
-	void	*floor;
-
+	int	bpp;
+	int	size_line;
+	int	endian;
+	char	*img_data;
+	void	*wold2d;
 }	t_img;
 
 typedef	struct s_player
@@ -68,8 +69,10 @@ char	**read_map(char *file);
 t_box	*setup_environement(char *mapfile);
 int		build_dependencies(t_box *box);
 int		allocate_sprites(t_box *box);
-int		draw_sprites(t_box *box);
 void	extract_map_width_hight(t_box *box);
 void	draw_player (t_box *box);
+int	push_pixels_to_image(t_box *box, void *image, int color);
+void	put_pixel_to_image(char *img_data, int x, int y, int color, int bpp, int size_line);
+void	fill_2d_world(t_box *box);
 
 # endif

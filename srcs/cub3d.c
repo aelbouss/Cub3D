@@ -27,7 +27,6 @@ int	key_handler (int keycode, t_box *box)
 		if (((box->plyr->p_y - 1) * TILESIZE) > (1 * TILESIZE))
 		{
 			box->plyr->p_y -= 1 ;
-			draw_sprites(box);
 			draw_player(box);
 		}
 	}
@@ -36,7 +35,6 @@ int	key_handler (int keycode, t_box *box)
 		if (((box->plyr->p_y + 1) * TILESIZE) < (box->cub->map_h * TILESIZE))
 		{
 			box->plyr->p_y += 1 ;
-			draw_sprites(box);
 			draw_player(box);
 		}
 	}
@@ -45,7 +43,6 @@ int	key_handler (int keycode, t_box *box)
 		if (((box->plyr->p_x - 1) * TILESIZE) > (1 * TILESIZE))
 		{
 			box->plyr->p_x -= 1 ;
-			draw_sprites(box);
 			draw_player(box);
 		}
 	}
@@ -54,7 +51,6 @@ int	key_handler (int keycode, t_box *box)
 		if (((box->plyr->p_x + 1) * TILESIZE) < (box->cub->map_w * TILESIZE))
 		{
 			box->plyr->p_x += 1 ;
-			draw_sprites(box);
 			draw_player(box);
 		}
 	}
@@ -73,9 +69,9 @@ int	main(int ac, char **av)
 		return (1);
 	if (build_dependencies(box) != 0)
 		return (1);
-	draw_sprites(box);
-	mlx_key_hook(box->cub->mlx_win, key_handler, box);
+	fill_2d_world(box);
 	draw_player(box);
+	mlx_key_hook(box->cub->mlx_win, key_handler, box);
 	mlx_loop(box->cub->mlx);
 	return (0);
 }
