@@ -77,8 +77,12 @@ int	build_dependencies(t_box *box)
 			box->cub->map_h * TILESIZE, "cub3d");
 	if (!box->cub->mlx_win)
 		return (1); // free mlx , free cub  , free img , free core
-	box->plyr->p_y = (box->cub->map_h * TILESIZE / 2 );
-	box->plyr->p_x = (box->cub->map_w * TILESIZE / 2);
+	box->plyr->p_y = ((box->cub->map_h * TILESIZE) / 2);
+	box->plyr->p_x = ((box->cub->map_w * TILESIZE) / 2);
+	box->plyr->p_angle = 0;
+	box->plyr->pdx = cos(box->plyr->p_angle);
+	box->plyr->pdy = sin(box->plyr->p_angle);
+
 	box->img->wold2d = mlx_new_image(box->cub->mlx, box->cub->map_w * TILESIZE, box->cub->map_h *TILESIZE);
 	if (!box->img->wold2d)
 		return (perror("Bad Image\n"), 1);

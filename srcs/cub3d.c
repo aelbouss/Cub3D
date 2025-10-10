@@ -8,10 +8,10 @@ void	draw_player (t_box *box)
 
 	y = 0;
 
-	while (y < 20)
+	while (y < PLYRSIZE)
 	{
 		x = 0; 
-		while (x < 20)
+		while (x < PLYRSIZE)
 		{
 			mlx_pixel_put(box->cub->mlx, box->cub->mlx_win, box->plyr->p_x + x, box->plyr->p_y + y, RED);
 			x++;
@@ -24,40 +24,75 @@ int	key_handler (int keycode, t_box *box)
 {
 	if (keycode == 65362)
 	{
-		if (loking_for_wall(box->plyr->p_x, box->plyr->p_y - 5, box) != 1)
+		if (loking_for_wall(box->plyr->p_x, (box->plyr->p_y - PLYRSIZE), box) != 1)
 		{
-			box->plyr->p_y -= 10 ;
+			box->plyr->p_y -= PLYRSIZE ;
 			draw_2d_world(box);
 			draw_player(box);
 		}
 	}
 	if (keycode == 65364)
 	{
-		if (loking_for_wall(box->plyr->p_x, box->plyr->p_y + 5, box) != 1)
+		if (loking_for_wall(box->plyr->p_x, (box->plyr->p_y + PLYRSIZE), box) != 1)
 		{
-			box->plyr->p_y += 10 ;
+			box->plyr->p_y += PLYRSIZE ;
 			draw_2d_world(box);
 			draw_player(box);
 		}
 	}
 	if (keycode == 65361)
 	{
-		if (loking_for_wall(box->plyr->p_x - 10, box->plyr->p_y, box) != 1)
+		if (loking_for_wall((box->plyr->p_x - PLYRSIZE), box->plyr->p_y, box) != 1)
 		{
-			box->plyr->p_x -= 10 ;
+			box->plyr->p_x -= PLYRSIZE ;
 			draw_2d_world(box);
 			draw_player(box);
 		}
 	}
 	if (keycode == 65363)
 	{
-		if (loking_for_wall(box->plyr->p_x + 10, box->plyr->p_y, box) != 1)
+		if (loking_for_wall(box->plyr->p_x + PLYRSIZE, box->plyr->p_y, box) != 1)
 		{
-			box->plyr->p_x += 10 ;
+			box->plyr->p_x += PLYRSIZE ;
 			draw_2d_world(box);
 			draw_player(box);
 		}
 	}
+	else if (keycode == 97) // A - rotate left
+	{
+   	 box->plyr->p_angle -= 0.1;
+   	 if (box->plyr->p_angle < 0)
+        box->plyr->p_angle += 2 * M_PI;
+
+    // Update direction vector every time angle changes
+    	box->plyr->pdx = cos(box->plyr->p_angle) * 10;
+    	box->plyr->pdy = sin(box->plyr->p_angle) * 10;
+
+   	 draw_2d_world(box);
+   	 draw_player(box);
+    	draw_player_direction(box->cub->mlx, box->cub->mlx_win,
+                          box->plyr->p_x, box->plyr->p_y,
+                          box->plyr->pdx, box->plyr->pdy,
+                          10, RED); // longer line for visibility
+}
+
+else if (keycode == 100) // D - rotate right
+{
+    box->plyr->p_angle += 0.1;
+    if (box->plyr->p_angle > 2 * M_PI)
+        box->plyr->p_angle -= 2 * M_PI;
+
+    // Update direction vector every time angle changes
+    box->plyr->pdx = cos(box->plyr->p_angle) * 10;
+    box->plyr->pdy = sin(box->plyr->p_angle) * 10;
+
+    draw_2d_world(box);
+    draw_player(box);
+    draw_player_direction(box->cub->mlx, box->cub->mlx_win,
+                          box->plyr->p_x, box->plyr->p_y,
+                          box->plyr->pdx, box->plyr->pdy,
+                          50, RED);
+}
 
 	return (0);
 }
@@ -114,6 +149,4 @@ int	main(int ac, char **av)
 	mlx_loop(box->cub->mlx);
 	return (0);
 }
-
-
-// checks the  map boundaries  too god  draw  ray 
+ 

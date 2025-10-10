@@ -7,6 +7,7 @@
 # include <unistd.h>
 # include <fcntl.h>
 # include <string.h>
+#include  <math.h>
 # include <mlx.h>
 
 
@@ -20,9 +21,11 @@
 // macros section 
 
 # define	TILESIZE 64
+# define	PLYRSIZE 32
 # define	POV	60
 # define	RES 4
 # define RED 0xFF0000
+# define	PI  3.141592653589793
 
 typedef	struct s_game
 {
@@ -44,11 +47,15 @@ typedef	struct s_img
 
 typedef	struct s_player
 {
-	int	p_x;
-	int	p_y;
+	float	p_x;
+	float	p_y;
+	float	pdx;
+	float	pdy;
+	float	p_angle ;
 	int	fov;
 	int pos;
 	int	dir;
+
 }	t_player;
 
 typedef	struct s_box
@@ -77,5 +84,9 @@ int	push_pixels_to_image(t_box *box, void *image, int color, int y, int x);
 int	draw_2d_world(t_box *box);
 int	loking_for_wall(int x, int y, t_box *box);
 int	key_handler (int keycode, t_box *box);
+void draw_player_direction(void *mlx_ptr, void *win_ptr, 
+                           int player_x, int player_y, 
+                           double dir_x, double dir_y, 
+                           int length, int color);
 
 # endif
