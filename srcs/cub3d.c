@@ -29,6 +29,10 @@ int	key_handler (int keycode, t_box *box)
 			box->plyr->p_y -= PLYRSIZE ;
 			draw_2d_world(box);
 			draw_player(box);
+			draw_player_direction(box->cub->mlx, box->cub->mlx_win,
+                          box->plyr->p_x, box->plyr->p_y,
+                          box->plyr->pdx, box->plyr->pdy,
+                          50, BLUE);
 		}
 	}
 	if (keycode == 65364)
@@ -38,6 +42,10 @@ int	key_handler (int keycode, t_box *box)
 			box->plyr->p_y += PLYRSIZE ;
 			draw_2d_world(box);
 			draw_player(box);
+			draw_player_direction(box->cub->mlx, box->cub->mlx_win,
+                          box->plyr->p_x, box->plyr->p_y,
+                          box->plyr->pdx, box->plyr->pdy,
+                          50, BLUE);
 		}
 	}
 	if (keycode == 65361)
@@ -47,6 +55,10 @@ int	key_handler (int keycode, t_box *box)
 			box->plyr->p_x -= PLYRSIZE ;
 			draw_2d_world(box);
 			draw_player(box);
+			draw_player_direction(box->cub->mlx, box->cub->mlx_win,
+                          box->plyr->p_x, box->plyr->p_y,
+                          box->plyr->pdx, box->plyr->pdy,
+                          50, BLUE);
 		}
 	}
 	if (keycode == 65363)
@@ -56,6 +68,10 @@ int	key_handler (int keycode, t_box *box)
 			box->plyr->p_x += PLYRSIZE ;
 			draw_2d_world(box);
 			draw_player(box);
+			draw_player_direction(box->cub->mlx, box->cub->mlx_win,
+                          box->plyr->p_x, box->plyr->p_y,
+                          box->plyr->pdx, box->plyr->pdy,
+                          50, BLUE);
 		}
 	}
 	else if (keycode == 97) // A - rotate left
@@ -73,7 +89,7 @@ int	key_handler (int keycode, t_box *box)
     	draw_player_direction(box->cub->mlx, box->cub->mlx_win,
                           box->plyr->p_x, box->plyr->p_y,
                           box->plyr->pdx, box->plyr->pdy,
-                          10, RED); // longer line for visibility
+                          50, BLUE); // longer line for visibility
 }
 
 else if (keycode == 100) // D - rotate right
@@ -91,7 +107,7 @@ else if (keycode == 100) // D - rotate right
     draw_player_direction(box->cub->mlx, box->cub->mlx_win,
                           box->plyr->p_x, box->plyr->p_y,
                           box->plyr->pdx, box->plyr->pdy,
-                          50, RED);
+                          50, BLUE);
 }
 
 	return (0);
@@ -145,6 +161,10 @@ int	main(int ac, char **av)
 		return (1);
 	draw_2d_world(box);
 	draw_player(box);
+	draw_player_direction(box->cub->mlx, box->cub->mlx_win,
+                          box->plyr->p_x, box->plyr->p_y,
+                          box->plyr->pdx, box->plyr->pdy,
+                          50, BLUE);
 	mlx_key_hook(box->cub->mlx_win, key_handler, box);
 	mlx_loop(box->cub->mlx);
 	return (0);

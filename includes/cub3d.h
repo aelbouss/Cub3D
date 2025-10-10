@@ -21,10 +21,11 @@
 // macros section 
 
 # define	TILESIZE 64
-# define	PLYRSIZE 32
+# define	PLYRSIZE 5
 # define	POV	60
 # define	RES 4
 # define RED 0xFF0000
+# define BLUE 0X0000FF
 # define	PI  3.141592653589793
 
 typedef	struct s_game
@@ -52,6 +53,9 @@ typedef	struct s_player
 	float	pdx;
 	float	pdy;
 	float	p_angle ;
+	float	walking_dir;
+	float	turn_dir;
+	float	angle_ret;
 	int	fov;
 	int pos;
 	int	dir;
@@ -88,5 +92,6 @@ void draw_player_direction(void *mlx_ptr, void *win_ptr,
                            int player_x, int player_y, 
                            double dir_x, double dir_y, 
                            int length, int color);
+void	adjust_player_direction(t_box *box, int keycode);
 
 # endif

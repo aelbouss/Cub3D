@@ -34,4 +34,3 @@ void draw_player_direction(void *mlx_ptr, void *win_ptr,
     }
 }
 
-
