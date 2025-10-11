@@ -22,49 +22,41 @@ void	draw_player (t_box *box)
 
 int	key_handler (int keycode, t_box *box)
 {
-	if (keycode == 65362)
+	if (keycode == 65362) // walk up 
 	{
-		if (loking_for_wall(box->plyr->p_x, (box->plyr->p_y - PLYRSIZE), box) != 1)
-		{
-			box->plyr->p_y -= PLYRSIZE ;
+		
+			box->plyr->p_x += cos(box->plyr->p_angle) * 10;
+			box->plyr->p_y += sin(box->plyr->p_angle) * 10;
 			draw_2d_world(box);
 			draw_player(box);
 			draw_player_direction(box->cub->mlx, box->cub->mlx_win,
                           box->plyr->p_x, box->plyr->p_y,
                           box->plyr->pdx, box->plyr->pdy,
                           50, BLUE);
-		}
 	}
 	if (keycode == 65364)
 	{
-		if (loking_for_wall(box->plyr->p_x, (box->plyr->p_y + PLYRSIZE), box) != 1)
-		{
-			box->plyr->p_y += PLYRSIZE ;
+			box->plyr->p_x -= cos(box->plyr->p_angle) * 10;
+			box->plyr->p_y -= sin(box->plyr->p_angle) * 10;
 			draw_2d_world(box);
 			draw_player(box);
 			draw_player_direction(box->cub->mlx, box->cub->mlx_win,
                           box->plyr->p_x, box->plyr->p_y,
                           box->plyr->pdx, box->plyr->pdy,
                           50, BLUE);
-		}
 	}
 	if (keycode == 65361)
 	{
-		if (loking_for_wall((box->plyr->p_x - PLYRSIZE), box->plyr->p_y, box) != 1)
-		{
-			box->plyr->p_x -= PLYRSIZE ;
+			box->plyr->p_x -= 10 ;
 			draw_2d_world(box);
 			draw_player(box);
 			draw_player_direction(box->cub->mlx, box->cub->mlx_win,
                           box->plyr->p_x, box->plyr->p_y,
                           box->plyr->pdx, box->plyr->pdy,
                           50, BLUE);
-		}
 	}
 	if (keycode == 65363)
 	{
-		if (loking_for_wall(box->plyr->p_x + PLYRSIZE, box->plyr->p_y, box) != 1)
-		{
 			box->plyr->p_x += PLYRSIZE ;
 			draw_2d_world(box);
 			draw_player(box);
@@ -72,13 +64,12 @@ int	key_handler (int keycode, t_box *box)
                           box->plyr->p_x, box->plyr->p_y,
                           box->plyr->pdx, box->plyr->pdy,
                           50, BLUE);
-		}
 	}
 	else if (keycode == 97) // A - rotate left
 	{
    	 box->plyr->p_angle -= 0.1;
    	 if (box->plyr->p_angle < 0)
-        box->plyr->p_angle += 2 * M_PI;
+        box->plyr->p_angle += 2 * PI;
 
     // Update direction vector every time angle changes
     	box->plyr->pdx = cos(box->plyr->p_angle) * 10;
@@ -95,8 +86,8 @@ int	key_handler (int keycode, t_box *box)
 else if (keycode == 100) // D - rotate right
 {
     box->plyr->p_angle += 0.1;
-    if (box->plyr->p_angle > 2 * M_PI)
-        box->plyr->p_angle -= 2 * M_PI;
+    if (box->plyr->p_angle > 2 * PI)
+        box->plyr->p_angle -= 2 * PI;
 
     // Update direction vector every time angle changes
     box->plyr->pdx = cos(box->plyr->p_angle) * 10;
@@ -164,7 +155,7 @@ int	main(int ac, char **av)
 	draw_player_direction(box->cub->mlx, box->cub->mlx_win,
                           box->plyr->p_x, box->plyr->p_y,
                           box->plyr->pdx, box->plyr->pdy,
-                          50, BLUE);
+                          500, BLUE);
 	mlx_key_hook(box->cub->mlx_win, key_handler, box);
 	mlx_loop(box->cub->mlx);
 	return (0);
