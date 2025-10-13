@@ -20,13 +20,19 @@
 
 // macros section 
 
-# define	TILESIZE 64
-# define	PLYRSIZE 5
-# define	POV	60
-# define	RES 4
+# define TILESIZE 64
+# define PLYRSIZE 5
+# define POV	60
+# define RES 4
 # define RED 0xFF0000
 # define BLUE 0X0000FF
-# define	PI  3.141592653589793
+# define PI  3.141592653589793
+# define WF 119 
+# define WB 115
+# define WL 97
+# define WR 100
+# define RL 65361
+# define RR 65363
 
 typedef	struct s_game
 {
@@ -93,5 +99,12 @@ void draw_player_direction(void *mlx_ptr, void *win_ptr,
                            double dir_x, double dir_y, 
                            int length, int color);
 void	adjust_player_direction(t_box *box, int keycode);
+
+int	walk_forward(t_box *box);
+int	walk_backward(t_box *box);
+int	walk_left(t_box *box);
+int	walk_right(t_box *box);
+int	retate_right(t_box *box);
+int	retate_left(t_box *box);
 
 # endif
