@@ -64,6 +64,9 @@ t_box	*setup_environement(char *mapfile)
 	box->plyr = malloc(1 * sizeof(t_player));
 	if (!box->plyr)
 		return (NULL);
+	box->ray = malloc(1 * sizeof(t_raycasting));
+	if (!box->ray)
+		return (NULL);
 	extract_map_width_hight(box);
 	return (box);
 }
@@ -82,6 +85,7 @@ int	build_dependencies(t_box *box)
 	box->plyr->p_angle = 0 * (PI / 180);
 	box->plyr->pdx = cos(box->plyr->p_angle);
 	box->plyr->pdy = sin(box->plyr->p_angle);
+	box->plyr->fov = 60 * (PI / 180);
 
 	box->img->wold2d = mlx_new_image(box->cub->mlx, box->cub->map_w * TILESIZE, box->cub->map_h *TILESIZE);
 	if (!box->img->wold2d)

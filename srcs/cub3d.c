@@ -38,7 +38,6 @@ int	key_handler (int keycode, t_box *box)
 }
 
 
-
 int	draw_2d_world(t_box *box)
 {
 	int	y;
@@ -64,14 +63,12 @@ int	draw_2d_world(t_box *box)
 }
 
 
-
 int	loking_for_wall(int x, int y, t_box *box)
 {
 	if (box->cub->map[(int)(y / TILESIZE)][(int )(x / TILESIZE)] == '0')
 		return (0);
 	return (1);
 }
-
 
 int	main(int ac, char **av)
 {

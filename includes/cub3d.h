@@ -33,6 +33,7 @@
 # define WR 100
 # define RL 65361
 # define RR 65363
+# define RES 4
 
 typedef	struct s_game
 {
@@ -68,12 +69,24 @@ typedef	struct s_player
 
 }	t_player;
 
+typedef	struct s_raycasting
+{
+	int	fov;
+	int	rays_num;
+	float	ray_angle;
+
+}	t_raycasting;
+
 typedef	struct s_box
 {
 	t_game	*cub;
 	t_img	*img;
 	t_player	*plyr;
+	t_raycasting	*ray;
 }	t_box;
+
+
+
 
 // prototypes section
 size_t	ft_strlen(char *str);
@@ -106,5 +119,7 @@ int	walk_left(t_box *box);
 int	walk_right(t_box *box);
 int	retate_right(t_box *box);
 int	retate_left(t_box *box);
+void	cast_rays(t_box *box);
+float	adjust_angle(double angle);
 
 # endif
