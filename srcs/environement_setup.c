@@ -82,7 +82,7 @@ int	build_dependencies(t_box *box)
 		return (1); // free mlx , free cub  , free img , free core
 	box->plyr->p_y = ((box->cub->map_h * TILESIZE) / 2);
 	box->plyr->p_x = ((box->cub->map_w * TILESIZE) / 2);
-	box->plyr->p_angle = 0 * (PI / 180);
+	box->plyr->p_angle = 90 * (PI / 180);
 	box->plyr->pdx = cos(box->plyr->p_angle);
 	box->plyr->pdy = sin(box->plyr->p_angle);
 	box->plyr->fov = 60 * (PI / 180);

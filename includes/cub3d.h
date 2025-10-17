@@ -25,6 +25,7 @@
 # define POV	60
 # define RES 4
 # define RED 0xFF0000
+# define YEL 0xd3e90f
 # define BLUE 0X0000FF
 # define PI  3.141592653589793
 # define WF 119 
@@ -55,15 +56,15 @@ typedef	struct s_img
 
 typedef	struct s_player
 {
-	float	p_x;
-	float	p_y;
-	float	pdx;
-	float	pdy;
-	float	p_angle ;
-	float	walking_dir;
-	float	turn_dir;
-	float	angle_ret;
-	int	fov;
+	double	p_x;
+	double	p_y;
+	double	pdx;
+	double	pdy;
+	double	p_angle ;
+	double	walking_dir;
+	double	turn_dir;
+	double	angle_ret;
+	double	fov;
 	int pos;
 	int	dir;
 
@@ -73,7 +74,7 @@ typedef	struct s_raycasting
 {
 	int	fov;
 	int	rays_num;
-	float	ray_angle;
+	double	ray_angle;
 
 }	t_raycasting;
 
@@ -120,6 +121,6 @@ int	walk_right(t_box *box);
 int	retate_right(t_box *box);
 int	retate_left(t_box *box);
 void	cast_rays(t_box *box);
-float	adjust_angle(double angle);
+double	adjust_angle(double angle);
 
 # endif
