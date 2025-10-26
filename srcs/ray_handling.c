@@ -1,17 +1,5 @@
 #include "../includes/cub3d.h"
 
-/*
-float	adjust_angle(float angle)
-{
-	float	a;
-
-	a = angle % (2 * PI);
-	if (a < 0)
-		a = (2 * PI) + angle;
-	return (a);
-}*/
-
-
 void cast_rays(t_box *box)
 {
    double  angle_between_rays;
@@ -28,11 +16,11 @@ void cast_rays(t_box *box)
                 box->plyr->p_x, box->plyr->p_y,
                 box->plyr->pdx, box->plyr->pdy,
                 50, BLUE);
-    boundary_s = box->plyr->p_angle - (box->plyr->fov  / 2);
-    boundary_l = box->plyr->p_angle + (box->plyr->fov   / 2);
     angle_between_rays = box->plyr->fov / ray_num;  
+    boundary_s = box->plyr->p_angle - (box->plyr->fov  / 2);
     snx = cos(boundary_s);
     sny = sin(boundary_s);
+    boundary_l = box->plyr->p_angle + (box->plyr->fov   / 2);
     lnx = cos(boundary_l);
     lny = sin(boundary_l);
     draw_player_direction(box->cub->mlx, box->cub->mlx_win, box->plyr->p_x, box->plyr->p_y, snx, sny, 50 ,   RED);

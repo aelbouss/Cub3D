@@ -83,10 +83,7 @@ int	main(int ac, char **av)
 		return (1);
 	draw_2d_world(box);
 	draw_player(box);
-	draw_player_direction(box->cub->mlx, box->cub->mlx_win,
-                          box->plyr->p_x, box->plyr->p_y,
-                          box->plyr->pdx, box->plyr->pdy,
-                          500, BLUE);
+	cast_rays(box);
 	mlx_key_hook(box->cub->mlx_win, key_handler, box);
 	mlx_hook(box->cub->mlx_win, 2, 1l<<0, key_handler, box);
 	mlx_loop(box->cub->mlx);
