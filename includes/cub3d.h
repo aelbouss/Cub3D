@@ -75,7 +75,15 @@ typedef	struct s_raycasting
 	int	fov;
 	int	rays_num;
 	double	ray_angle;
-
+	double	nearest_x;
+	double	nearsest_y;
+	double	h_i_x;
+	double	h_i_y;
+	double	v_i_x;
+	double	v_i_y;
+	double	rayangle;
+	double	wall_hit_x;
+	double	wall_hit_y;
 }	t_raycasting;
 
 typedef	struct s_box
@@ -122,5 +130,7 @@ int	retate_right(t_box *box);
 int	retate_left(t_box *box);
 void	cast_rays(t_box *box);
 double	adjust_angle(double angle);
+char    grap_direction(t_box *box);
+void    horizontal_intersection(t_box *box);
 
 # endif

@@ -34,6 +34,35 @@ void cast_rays(t_box *box)
     }
 }
 
+// find  the  horizontal intersection 
+
+char    grap_direction(t_box *box)
+{
+    if ((box->ray->rayagnle > 0) && (box->ray->rayagnle < PI)) // facing  down
+        return ('d');
+    if (!((box->ray->rayagnle > 0) && (box->ray->rayagnle < PI))) // facing up
+        return ('u');
+    if ((box->ray->rayagnle < (0.5 * PI)) && (box->ray->rayagnle > (1.5 * PI))) // facing right
+        return ('r');
+    if (!((box->ray->rayagnle < (0.5 * PI)) && (box->ray->rayagnle > (1.5 * PI)))) //ficing  left
+        return ('l');
+}
+
+
+// need to complete the  horizontal intersection .
+void    horizontal_intersection(t_box *box)
+{
+    // if the  player  lookin up
+    if (grap_direction(box) == 'u')
+        box->ray->nearset_y = floor(box->plyr->p_y / TILESIZE) * TILESIZE -1;
+    // if the  player  looking  down 
+    if (grap_direction(box) == 'd')
+        box->ray->nearest_y = floor(box->plyr->p_y / TILESIZE) * TILESIZE + TILESIZE;
+    // the  nearest x 
+    box->ray->nearest_x = ( box->ray->nearest_y - box->plyr->p_y) / tan(box->plyr->player-angle) + box->plyr->p_x ;
+    box->ray->h_i_x = box->ray->nearest_x;
+    box->ray->h_i_y = box->ray->nearest_y;
+}
 
 
 
