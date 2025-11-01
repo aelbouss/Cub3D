@@ -53,7 +53,6 @@ int	draw_2d_world(t_box *box)
 				push_pixels_to_image(box, box->img->wold2d, 0x565656, y * TILESIZE, x * TILESIZE);
 			if (box->cub->map[y][x] == '0')
 				push_pixels_to_image(box, box->img->wold2d, 0xFFFFFF, y * TILESIZE, x * TILESIZE);
-				// draw white color ;
 			x++;
 		}
 		y++;

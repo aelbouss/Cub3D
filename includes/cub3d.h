@@ -76,12 +76,11 @@ typedef	struct s_raycasting
 	int	rays_num;
 	double	ray_angle;
 	double	nearest_x;
-	double	nearsest_y;
+	double	nearest_y;
 	double	h_i_x;
 	double	h_i_y;
 	double	v_i_x;
 	double	v_i_y;
-	double	rayangle;
 	double	wall_hit_x;
 	double	wall_hit_y;
 }	t_raycasting;
@@ -128,9 +127,11 @@ int	walk_left(t_box *box);
 int	walk_right(t_box *box);
 int	retate_right(t_box *box);
 int	retate_left(t_box *box);
-void	cast_rays(t_box *box);
+void cast_rays(t_box *box);
 double	adjust_angle(double angle);
 char    grap_direction(t_box *box);
 void    horizontal_intersection(t_box *box);
+int		has_wall(t_box *box, double x , double y);
+void draw_ray_angle(void *mlx_ptr, void *win_ptr, double sx, double sy, double angle, double max_distance, int color);
 
 # endif

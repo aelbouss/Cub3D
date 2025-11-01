@@ -1,60 +1,31 @@
 #include "../includes/cub3d.h"
 
 
-void draw_player_direction(void *mlx_ptr, void *win_ptr, 
-                           int player_x, int player_y, 
-                           double dir_x, double dir_y, 
-                           int length, int color)
+// Draw a pixel at (x, y)
+void put_pixel(void *mlx_ptr, void *win_ptr, int x, int y, int color)
 {
-    int x_end = player_x + (int)(dir_x * length);
-    int y_end = player_y + (int)(dir_y * length);
+    mlx_pixel_put(mlx_ptr, win_ptr, x, y, color);
+}
 
-    int dx = abs(x_end - player_x);
-    int dy = abs(y_end - player_y);
-    int sx = player_x < x_end ? 1 : -1;
-    int sy = player_y < y_end ? 1 : -1;
-    int err = dx - dy;
+// Draw a ray from (sx, sy) at angle (radians) up to max_distance
+void draw_ray_angle(void *mlx_ptr, void *win_ptr, double sx, double sy, double angle, double max_distance, int color)
+{
+    double hx = sx + cos(angle) * max_distance;
+    double hy = sy + sin(angle) * max_distance;
+    double dx = hx - sx;
+    double dy = hy - sy;
+    double steps = fmax(fabs(dx), fabs(dy));
+    double x_inc = dx / steps;
+    double y_inc = dy / steps;
+    double x = sx;
+    double y = sy;
+    int i;
 
-    int x0 = player_x;
-    int y0 = player_y;
-
-    while (1) {
-        mlx_pixel_put(mlx_ptr, win_ptr, x0, y0, color);
-        if (x0 == x_end && y0 == y_end)
-            break;
-        int e2 = 2 * err;
-        if (e2 > -dy) {
-            err -= dy;
-            x0 += sx;
-        }
-        if (e2 < dx) {
-            err += dx;
-            y0 += sy;
-        }
+    for (i = 0; i <= (int)steps; i++)
+    {
+        put_pixel(mlx_ptr, win_ptr, (int)x, (int)y, color);
+        x += x_inc;
+        y += y_inc;
     }
 }
 
-
-
-
-
-/*
-void	cast_rays(t_box *box)
-{
-	double	rayangle;
-	double	angle_between_rays;
-	int	number_rays;
-	int	i;			
-
-	number_rays = (box->cub->map_w * TILESIZE) / RES;
-	angle_between_rays = box->plyr->fov / number_rays;
-	rayangle = box->plyr->p_angle - (box->plyr->fov / 2);
-	i = 0;
-	while (i < number_rays)
-	{
-		draw_player_direction(box->cub->mlx, box->cub->mlx_win, box->plyr->p_x,
-			box->plyr->p_y, box->plyr->p_x + cos(rayangle) * 30, box->plyr->p_y + sin(rayangle) * 30, 30, RED);
-		rayangle += angle_between_rays;
-		i++;
-	}
-}*/
