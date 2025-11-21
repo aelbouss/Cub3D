@@ -62,7 +62,7 @@ int	draw_2d_world(t_box *box)
 }
 
 
-int	loking_for_wall(int x, int y, t_box *box)
+int		has_wall(t_box *box, double x , double y)
 {
 	if (box->cub->map[(int)(y / TILESIZE)][(int )(x / TILESIZE)] == '0')
 		return (0);

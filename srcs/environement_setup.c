@@ -86,7 +86,8 @@ int	build_dependencies(t_box *box)
 	box->plyr->pdx = cos(box->plyr->p_angle);
 	box->plyr->pdy = sin(box->plyr->p_angle);
 	box->plyr->fov = 60 * (PI / 180);
-
+	box->ray->game_h = (box->cub->map_h * TILESIZE);
+	box->ray->game_w = (box->cub->map_w * TILESIZE);
 	box->img->wold2d = mlx_new_image(box->cub->mlx, box->cub->map_w * TILESIZE, box->cub->map_h *TILESIZE);
 	if (!box->img->wold2d)
 		return (perror("Bad Image\n"), 1);
