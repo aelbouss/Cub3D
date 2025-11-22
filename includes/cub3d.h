@@ -145,4 +145,5 @@ void draw_line_mlx(void *mlx_ptr, void *win_ptr,
                    double dir_x, double dir_y,
                    int color);
 void cast_rays(t_box *box);
+void get_player_direction(double p_angle);
 # endif

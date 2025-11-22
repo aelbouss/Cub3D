@@ -1,6 +1,24 @@
 #include "../includes/cub3d.h"
 
-void    horizontal_intersection_check(t_box *box , char dir)
+void get_player_direction(double p_angle)
+{
+    // Normalize angle to 0 ~ 2*PI
+    while (p_angle < 0)
+        p_angle += 2 * PI;
+    while (p_angle >= 2 * PI)
+        p_angle -= 2 * PI;
+
+    if ((p_angle >= 7*PI/4) || (p_angle < PI/4))
+        printf("Moving Right\n");
+    else if (p_angle >= PI/4 && p_angle < 3*PI/4)
+        printf("Moving Up\n");
+    else if (p_angle >= 3*PI/4 && p_angle < 5*PI/4)
+        printf("Moving Left\n");
+    else
+        printf("Moving Down\n");
+}
+
+/*void    horizontal_intersection_check(t_box *box , char dir)
 {
     double  next_y;
     double  next_x;
@@ -62,5 +80,5 @@ void    vertical_intersection_check(t_box *box, char dir)
             next_x -= TILESIZE ;
         next_y = near_x  * tan(box->ray->ray_angle);
      }
-}
+}*/
 
