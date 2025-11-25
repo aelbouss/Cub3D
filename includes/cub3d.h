@@ -130,8 +130,8 @@ double	adjust_angle(double angle);
 char    grap_direction(t_box *box);
 int		has_wall(t_box *box, double x , double y);
 void    draw_line(void *mlx, void *win, int x0, int y0, int x1, int y1, int color);
-void    horizontal_intersection_check(t_box *box , char dir);
-void    vertical_intersection_check(t_box *box, char dir);
+void    horizontal_intersection_check(t_box *box);
+void    vertical_intersection_check(t_box *box);
 int cast_ray_simple(t_box *box,
                     double start_x, double start_y,
                     double dx, double dy,
@@ -145,5 +145,5 @@ void draw_line_mlx(void *mlx_ptr, void *win_ptr,
                    double dir_x, double dir_y,
                    int color);
 void cast_rays(t_box *box);
-void get_player_direction(double p_angle);
+char    get_player_direction(double p_angle);
 # endif
