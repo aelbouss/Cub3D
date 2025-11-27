@@ -47,11 +47,12 @@ int	walk_right(t_box *box)
 int	retate_right(t_box *box)
 {
 	box->plyr->p_angle += 0.1;
-	if (box->plyr->p_angle > 2 * PI)
-        	box->plyr->p_angle -= 2 * PI;
+	box->plyr->p_angle = normalize_angle(box->plyr->p_angle);
+
+	//box->ray->ray_angle = normalize_angle(box->ray->ray_angle);
     // Update direction vector every time angle changes
-    box->plyr->pdx = cos(box->plyr->p_angle) * PLYRSPEED;
-    box->plyr->pdy = sin(box->plyr->p_angle) * PLYRSPEED;
+    //box->plyr->pdx = cos(box->plyr->p_angle) * PLYRSPEED;
+    //box->plyr->pdy = sin(box->plyr->p_angle) * PLYRSPEED;
 
     draw_2d_world(box);
     draw_player(box);
@@ -62,12 +63,10 @@ int	retate_right(t_box *box)
 int	retate_left(t_box *box)
 {
 	box->plyr->p_angle -= 0.1;
-   	if (box->plyr->p_angle < 0)
-		box->plyr->p_angle += 2 * PI;
+   box->plyr->p_angle = normalize_angle(box->plyr->p_angle);
     // Update direction vector every time angle changes
-    box->plyr->pdx = cos(box->plyr->p_angle) * PLYRSPEED;
-    box->plyr->pdy = sin(box->plyr->p_angle) * PLYRSPEED;
-
+    //box->plyr->pdx = cos(box->plyr->p_angle) * PLYRSPEED;
+    //box->plyr->pdy = sin(box->plyr->p_angle) * PLYRSPEED;
    	draw_2d_world(box);
    	draw_player(box);
 	cast_rays(box);
