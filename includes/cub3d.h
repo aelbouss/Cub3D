@@ -82,6 +82,10 @@ typedef	struct s_raycasting
 	double	h_hit_y;
 	double	v_hit_x;
 	double	v_hit_y;
+	double	x_step;
+	double	y_step;
+	double	near_x;
+	double	near_y;
 
 }	t_raycasting;
 
@@ -145,7 +149,6 @@ void draw_line_mlx(void *mlx_ptr, void *win_ptr,
                    double dir_x, double dir_y,
                    int color);
 void cast_rays(t_box *box);
-char    get_player_direction(double p_angle);
 double  get_distance(double p1x, double p1y , double p2x, double p2y);
 char    get_closest_distance(t_box *box);
 double normalize_angle(double angle);

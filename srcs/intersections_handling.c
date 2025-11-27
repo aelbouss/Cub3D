@@ -1,53 +1,24 @@
 #include "../includes/cub3d.h"
 
-char    get_player_direction(double p_angle)
-{
-    // Normalize angle to 0 ~ 2*PI
-    while (p_angle < 0)
-        p_angle += 2 * PI;
-    while (p_angle >= 2 * PI)
-        p_angle -= 2 * PI;
-
-    if ((p_angle >= 7 * PI / 4) || (p_angle < PI / 4))
-        return ('r');
-    else if (p_angle >= PI / 4 && p_angle < 3 * PI / 4)
-        return ('u');
-    else if (p_angle >= 3*PI/4 && p_angle < 5 * PI / 4)
-        return ('l');
-    else
-        return ('d');
-}
-
 void    horizontal_intersection_check(t_box *box )
 {
-
     double  next_y;
     double  next_x;
-    double  near_x;
-    double  near_y;
-    double  x_step;
-    double  y_step;
-    char    dir;
+    double  rayangle;
 
-    near_y = 0;
-    dir = get_player_direction(box->ray->ray_angle);
-    if (dir == 'u')
-        near_y = floor(box->plyr->p_y / TILESIZE) * TILESIZE - 0.0001;
-    if (dir == 'd')
-        near_y = floor(box->plyr->p_y / TILESIZE) * TILESIZE + TILESIZE;
-    
-    near_x = box->plyr->p_x + (near_y - box->plyr->p_y) / tan(box->ray->ray_angle);
-    if (dir == 'd')
-        y_step = TILESIZE;
-    if (dir == 'u')
-        y_step = -TILESIZE;
-    x_step = y_step / tan(box->ray->ray_angle);
-    if (dir == 'r' && x_step < 0)
-        x_step *= -1 ;
-    if (dir == 'l' && x_step > 0)
-        x_step *= -1 ;
-    next_x = near_x;
-    next_y = near_y;
+    rayangle = box->ray->ray_angle;
+    if (!(rayangle > 0 && rayangle < PI)) // FAcin down
+        box->ray->near_y = floor(box->plyr->p_y / TILESIZE) * TILESIZE - 1;
+    else
+        box->ray->near_y = floor(box->plyr->p_y / TILESIZE) * TILESIZE + TILESIZE; //facing up
+    box->ray->near_x = box->plyr->p_x + (box->ray->near_y - box->plyr->p_y) / tan(rayangle);
+    if (rayangle > 0 && rayangle < PI)
+        box->ray->y_step = TILESIZE;
+    else
+        box->ray->y_step = -TILESIZE;
+    box->ray->x_step = box->ray->y_step / tan(rayangle);
+    next_x =  box->ray->near_x;
+    next_y =  box->ray->near_y;
     while (next_y >= 0 && next_y <= box->ray->game_h && next_x >= 0 && next_x <= box->ray->game_w)
     {
         if (has_wall(box, next_x, next_y))
@@ -56,37 +27,30 @@ void    horizontal_intersection_check(t_box *box )
             box->ray->h_hit_y = next_y;
             return ;
         }
-        next_y += y_step;
-        next_x += x_step;
+        next_x += box->ray->x_step;
+        next_y += box->ray->y_step;
     }
 }
-
-
 
 void    vertical_intersection_check(t_box *box)
 {
     double  next_y;
     double  next_x;
-    double  near_x;
-    double  near_y;
-    double  x_step;
-    double  y_step;
-    char    dir;
+    double  rayangle;
 
-    dir  = get_player_direction(box->ray->ray_angle);    
-    if (dir == 'r')
-        near_x = floor(box->plyr->p_x / TILESIZE) * TILESIZE + TILESIZE ;
+    rayangle = box->ray->ray_angle;   
+    if (rayangle < 0.5 * PI || rayangle > 1.5 * PI) // facing right
+        box->ray->near_x = floor(box->plyr->p_x / TILESIZE) * TILESIZE + TILESIZE ;
     else
-        near_x = floor(box->plyr->p_x / TILESIZE) * TILESIZE - 0.0001;
-    
-    if (dir == 'r')
-        x_step = TILESIZE;
+        box->ray->near_x = floor(box->plyr->p_x / TILESIZE) * TILESIZE - 1;
+    box->ray->near_y = box->plyr->p_y + (box->ray->near_x - box->plyr->p_x) * tan(rayangle);
+    if (rayangle < 0.5 * PI || rayangle > 1.5 * PI) // facing right
+        box->ray->x_step = TILESIZE;
     else
-        x_step = -TILESIZE;
-    near_y = box->plyr->p_y + (near_x - box->plyr->p_x) * tan(box->ray->ray_angle);
-    y_step = x_step * tan(box->ray->ray_angle);
-    next_y = near_y ;
-    next_x = near_x ;
+        box->ray->x_step = -TILESIZE;
+    box->ray->y_step = box->ray->x_step * tan(rayangle);
+    next_y = box->ray->near_y;
+    next_x = box->ray->near_x;
     while (next_y >= 0 && next_y <= box->ray->game_h && next_x >= 0 && next_x <= box->ray->game_w)
     {
         if (has_wall(box, next_x, next_y))
@@ -95,102 +59,10 @@ void    vertical_intersection_check(t_box *box)
             box->ray->v_hit_y = next_y;
             return ;
         }
-        next_x += x_step;
-        next_y += y_step;
+        next_x += box->ray->x_step;
+        next_y += box->ray->y_step;
     }
 }
-
-
-
-/*void horizontal_intersection_check(t_box *box)
-{
-    double ray = box->ray->ray_angle;
-    double near_x, near_y;
-    double x_step, y_step;
-
-    int ray_up   = (ray > PI);
-    int ray_down = !ray_up;
-    int ray_right = (ray < 0.5*PI || ray > 1.5*PI);
-    int ray_left  = !ray_right;
-
-    (void)ray_left;
-    (void)ray_down;
-    // --- 1. Find nearest horizontal gridline ---
-    if (ray_up)
-        near_y = floor(box->plyr->p_y / TILESIZE) * TILESIZE - 0.0001;
-    else
-        near_y = floor(box->plyr->p_y / TILESIZE) * TILESIZE + TILESIZE;
-
-    // --- 2. Find corresponding near_x ---
-    near_x = box->plyr->p_x + (near_y - box->plyr->p_y) / tan(ray);
-
-    // --- 3. Step sizes ---
-    y_step = ray_up ? -TILESIZE : TILESIZE;
-    x_step = y_step / tan(ray);
-
-    // --- 4. Loop ---
-    double next_x = near_x;
-    double next_y = near_y;
-
-    while (next_x >= 0 && next_x <= box->ray->game_w &&
-           next_y >= 0 && next_y <= box->ray->game_h)
-    {
-        if (has_wall(box, next_x, next_y))
-        {
-            box->ray->h_hit_x = next_x;
-            box->ray->h_hit_y = next_y;
-            return;
-        }
-        next_x += x_step;
-        next_y += y_step;
-    }
-}*/
-
-/*void vertical_intersection_check(t_box *box)
-{
-    double ray = box->ray->ray_angle;
-    double near_x, near_y;
-    double x_step, y_step;
-
-    int ray_up   = (ray > PI);
-    int ray_down = !ray_up;
-    int ray_right = (ray < 0.5*PI || ray > 1.5*PI);
-    int ray_left  = !ray_right;
-
-    
-    (void)ray_left;
-    (void)ray_down;
-    // --- 1. Find nearest vertical gridline ---
-    if (ray_right)
-        near_x = floor(box->plyr->p_x / TILESIZE) * TILESIZE + TILESIZE;
-    else
-        near_x = floor(box->plyr->p_x / TILESIZE) * TILESIZE - 0.0001;
-
-    // --- 2. Find corresponding near_y ---
-    near_y = box->plyr->p_y + (near_x - box->plyr->p_x) * tan(ray);
-
-    // --- 3. Step sizes ---
-    x_step = ray_right ? TILESIZE : -TILESIZE;
-    y_step = x_step * tan(ray);
-
-    // --- 4. Loop ---
-    double next_x = near_x;
-    double next_y = near_y;
-
-    while (next_x >= 0 && next_x <= box->ray->game_w &&
-           next_y >= 0 && next_y <= box->ray->game_h)
-    {
-        if (has_wall(box, next_x, next_y))
-        {
-            box->ray->v_hit_x = next_x;
-            box->ray->v_hit_y = next_y;
-            return;
-        }
-        next_x += x_step;
-        next_y += y_step;
-    }
-
-}*/
 
 
 double  get_distance(double p1x, double p1y , double p2x, double p2y)
