@@ -89,6 +89,4 @@ int	main(int ac, char **av)
 	return (0);
 }
  
-
-// allow the  player  move  when you  keep  pressing  the  button 
-// read about  raycasting
+// there is a bug when the player being inside the wall and you tray to move it out .

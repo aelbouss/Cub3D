@@ -76,7 +76,6 @@ int	retate_right(t_box *box)
 {
 	box->plyr->p_angle += 0.1;
 	box->plyr->p_angle = normalize_angle(box->plyr->p_angle);
-
     draw_2d_world(box);
     draw_player(box);
 	cast_rays(box);
@@ -86,10 +85,7 @@ int	retate_right(t_box *box)
 int	retate_left(t_box *box)
 {
 	box->plyr->p_angle -= 0.1;
-   box->plyr->p_angle = normalize_angle(box->plyr->p_angle);
-    // Update direction vector every time angle changes
-    //box->plyr->pdx = cos(box->plyr->p_angle) * PLYRSPEED;
-    //box->plyr->pdy = sin(box->plyr->p_angle) * PLYRSPEED;
+	box->plyr->p_angle = normalize_angle(box->plyr->p_angle);
    	draw_2d_world(box);
    	draw_player(box);
 	cast_rays(box);
