@@ -26,7 +26,7 @@ char	**read_map(char *file)
 		if (!map[cnt - 1])
 			break ;
 	}
-	map[cnt] = NULL;
+	map[cnt-1] = NULL;
 	return (map);
 }
 

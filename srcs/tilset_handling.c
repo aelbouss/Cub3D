@@ -35,25 +35,3 @@ void draw_player_direction(void *mlx_ptr, void *win_ptr,
     }
 }
 
-void draw_line_mlx(void *mlx_ptr, void *win_ptr,
-                   double x0, double y0,
-                   double hit_x, double hit_y,
-                   double dir_x, double dir_y,
-                   int color)
-{
-    double dx = hit_x - x0;
-    double dy = hit_y - y0;
-    double steps = fabs(dx) > fabs(dy) ? fabs(dx) : fabs(dy);
-    double x_inc = dx / steps;
-    double y_inc = dy / steps;
-    double x = x0;
-    double y = y0;
-
-    for (int i = 0; i <= (int)steps; i++)
-    {
-        mlx_pixel_put(mlx_ptr, win_ptr, (int)round(x), (int)round(y), color);
-        x += x_inc;
-        y += y_inc;
-    }
-}
-

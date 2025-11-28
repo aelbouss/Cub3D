@@ -39,12 +39,12 @@ void    vertical_intersection_check(t_box *box)
     double  rayangle;
 
     rayangle = box->ray->ray_angle;   
-    if (rayangle < 0.5 * PI || rayangle > 1.5 * PI) // facing right
+    if (rayangle <= 0.5 * PI || rayangle >= 1.5 * PI) // facing right
         box->ray->near_x = floor(box->plyr->p_x / TILESIZE) * TILESIZE + TILESIZE ;
     else
         box->ray->near_x = floor(box->plyr->p_x / TILESIZE) * TILESIZE - 1;
     box->ray->near_y = box->plyr->p_y + (box->ray->near_x - box->plyr->p_x) * tan(rayangle);
-    if (rayangle < 0.5 * PI || rayangle > 1.5 * PI) // facing right
+    if (rayangle <= 0.5 * PI || rayangle >= 1.5 * PI) // facing right
         box->ray->x_step = TILESIZE;
     else
         box->ray->x_step = -TILESIZE;

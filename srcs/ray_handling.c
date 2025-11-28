@@ -44,7 +44,7 @@ void cast_rays(t_box *box)
     ray_num = 60;
     angle_between_rays = box->plyr->fov / ray_num;
     box->plyr->p_angle = normalize_angle(box->plyr->p_angle);
-    box->ray->ray_angle = box->plyr->p_angle - (box->plyr->fov  / 2); // start of the fov
+    box->ray->ray_angle = box->plyr->p_angle - (box->plyr->fov / 2); // start of the fov
     while (ray_num > 0)
     {
         box->ray->ray_angle = normalize_angle(box->ray->ray_angle);
@@ -55,6 +55,10 @@ void cast_rays(t_box *box)
         else
             draw_line(box->cub->mlx, box->cub->mlx_win ,box->plyr->p_x, box->plyr->p_y, box->ray->h_hit_x, box->ray->h_hit_y, RED);
         box->ray->ray_angle += angle_between_rays ;
+        box->ray->h_hit_x = 0;
+        box->ray->h_hit_y = 0;
+        box->ray->v_hit_x = 0;
+        box->ray->v_hit_y = 0;
         ray_num--;
     }
 }

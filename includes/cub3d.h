@@ -36,6 +36,7 @@
 # define RL 65361
 # define RR 65363
 # define RES 4
+# define WALL_HEIGHT 60
 
 typedef	struct s_game
 {
@@ -86,6 +87,10 @@ typedef	struct s_raycasting
 	double	y_step;
 	double	near_x;
 	double	near_y;
+	double	distance;
+	double	line_height;
+	double	start_draw;
+	double	end_draw;
 
 }	t_raycasting;
 
