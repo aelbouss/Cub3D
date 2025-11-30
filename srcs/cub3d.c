@@ -64,7 +64,13 @@ int	draw_2d_world(t_box *box)
 
 int		has_wall(t_box *box, double x , double y)
 {
-	if (box->cub->map[(int)(y / TILESIZE)][(int )(x / TILESIZE)] == '0')
+	int map_y = (int)(y / TILESIZE);
+	int map_x = (int)(x / TILESIZE);
+
+	if (map_y < 0 || map_x < 0 || !box->cub->map[map_y] || !box->cub->map[map_y][map_x])
+		return (1); // treat out-of-bounds as wall
+
+	if (box->cub->map[map_y][map_x] == '0')
 		return (0);
 	return (1);
 }
