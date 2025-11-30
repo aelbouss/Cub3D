@@ -85,6 +85,8 @@ typedef	struct s_raycasting
 	double	v_hit_y;
 	double	x_step;
 	double	y_step;
+	double	next_x;
+	double	next_y;
 	double	near_x;
 	double	near_y;
 	double	distance;
