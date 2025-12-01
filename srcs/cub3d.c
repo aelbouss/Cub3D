@@ -68,8 +68,7 @@ int		has_wall(t_box *box, double x , double y)
 	int map_x = (int)(x / TILESIZE);
 
 	if (map_y < 0 || map_x < 0 || !box->cub->map[map_y] || !box->cub->map[map_y][map_x])
-		return (1); // treat out-of-bounds as wall
-
+		return (1);
 	if (box->cub->map[map_y][map_x] == '0')
 		return (0);
 	return (1);

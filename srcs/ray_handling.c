@@ -51,19 +51,26 @@ void cast_rays(t_box *box)
         horizontal_intersection_check(box);
         vertical_intersection_check(box);
         if (get_closest_distance(box) == 'v')
-            draw_line(box->cub->mlx, box->cub->mlx_win ,box->plyr->p_x, box->plyr->p_y, box->ray->v_hit_x, box->ray->v_hit_y, RED);
+        {
+            box->ray->x_hit = box->ray->v_hit_x;
+            box->ray->y_hit = box->ray->v_hit_y;
+        }
         else
-            draw_line(box->cub->mlx, box->cub->mlx_win ,box->plyr->p_x, box->plyr->p_y, box->ray->h_hit_x, box->ray->h_hit_y, RED);
+        {
+            box->ray->x_hit = box->ray->h_hit_x;
+            box->ray->y_hit = box->ray->h_hit_y;
+        }
+        draw_line(box->cub->mlx, box->cub->mlx_win ,box->plyr->p_x, box->plyr->p_y, box->ray->x_hit, box->ray->y_hit, RED);
         box->ray->ray_angle += angle_between_rays ;
-        box->ray->h_hit_x = 0;
-        box->ray->h_hit_y = 0;
-        box->ray->v_hit_x = 0;
-        box->ray->v_hit_y = 0;
         ray_num--;
     }
 }
-
-
-
+/*
+void    calcule_dependencies(t_box *box)
+{
+    box->ray->plyr_to_pp = (box->ray->game_w / 2) / tan((box->plyr->fov / 2));
+    box->ray->line_height =  TILESIZE / 
+}
+    */
 
 

@@ -83,6 +83,8 @@ typedef	struct s_raycasting
 	double	h_hit_y;
 	double	v_hit_x;
 	double	v_hit_y;
+	double	x_hit;
+	double	y_hit;
 	double	x_step;
 	double	y_step;
 	double	next_x;
@@ -93,6 +95,8 @@ typedef	struct s_raycasting
 	double	line_height;
 	double	start_draw;
 	double	end_draw;
+	double	plyr_to_pp;
+	double	wall_height;
 
 }	t_raycasting;
 
