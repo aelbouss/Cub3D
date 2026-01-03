@@ -1,0 +1,36 @@
+NAME = cub3d
+
+CC = cc
+CFLAGS = -Wall -Werror -Wextra -g
+
+LIBFT_DIR = libft
+LIBFT = $(LIBFT_DIR)/libft.a
+
+MLX_FLAGS = -Lminilibx-linux -lmlx -L/usr/lib -lXext -lX11 -lm -lz
+
+SRCS = $(wildcard srcs/parsing/*.c) srcs/main.c  #$(wildcard srcs/Raycasting/*.c) 
+
+OBJS = $(SRCS:.c=.o)
+
+all: $(LIBFT) $(NAME)
+
+$(NAME): $(OBJS)
+	$(CC) $(OBJS) $(LIBFT) $(MLX_FLAGS) -o $(NAME)
+
+%.o: %.c
+	$(CC) $(CFLAGS) -I/usr/include -Iminilibx-linux -c $< -o $@
+
+$(LIBFT):
+	@$(MAKE) -C $(LIBFT_DIR)
+
+clean:
+	rm -f $(OBJS)
+	@$(MAKE) -C $(LIBFT_DIR) clean
+
+fclean: clean
+	rm -f $(NAME)
+	@$(MAKE) -C $(LIBFT_DIR) fclean
+
+re: fclean all
+
+.PHONY: all clean fclean re
