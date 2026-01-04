@@ -6,11 +6,11 @@
 /*   By: aelbouss <aelbouss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/30 18:01:15 by rmaanane          #+#    #+#             */
-/*   Updated: 2026/01/03 17:33:11 by aelbouss         ###   ########.fr       */
+/*   Updated: 2026/01/03 20:53:47 by aelbouss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/parsing.h"
+#include "../includes/game.h"
 
 int	ft_strcmp(char *s1, char *s2)
 {

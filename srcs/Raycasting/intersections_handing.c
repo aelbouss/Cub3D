@@ -1,6 +1,8 @@
-#include "../includes/cub3d.h"
+# include  "../includes/game.h"
 
-void horizontal_intersection_check(t_box *box)
+
+
+void horizontal_intersection_check(t_game *box)
 {
     double rayangle;
 
@@ -28,7 +30,7 @@ void horizontal_intersection_check(t_box *box)
     box->ray->h_hit_y = box->ray->near_y;
 }
 
-void vertical_intersection_check(t_box *box)
+void vertical_intersection_check(t_game *box)
 {
     double rayangle;
 
@@ -65,7 +67,7 @@ double  get_distance(double p1x, double p1y , double p2x, double p2y)
     sd = p1y - p2y ;
     return(sqrt(fd * fd + sd * sd));
 }
-char    get_closest_distance(t_box *box)
+char    get_closest_distance(t_game *box)
 {
     double  v_distance;
     double  h_distance;

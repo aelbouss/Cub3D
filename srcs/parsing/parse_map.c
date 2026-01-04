@@ -6,11 +6,11 @@
 /*   By: aelbouss <aelbouss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/30 17:35:50 by rmaanane          #+#    #+#             */
-/*   Updated: 2026/01/03 17:53:11 by aelbouss         ###   ########.fr       */
+/*   Updated: 2026/01/04 01:38:45 by aelbouss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/parsing.h"
+#include "../includes/game.h"
 
 void	check_allowed_characters(t_game *game, int fd)
 {

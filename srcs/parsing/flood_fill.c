@@ -6,11 +6,11 @@
 /*   By: aelbouss <aelbouss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/30 01:02:27 by string            #+#    #+#             */
-/*   Updated: 2026/01/03 17:33:22 by aelbouss         ###   ########.fr       */
+/*   Updated: 2026/01/04 01:30:29 by aelbouss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/parsing.h"
+#include "../includes/game.h"
 
 char	**dup_map(t_game *game)
 {
@@ -31,25 +31,23 @@ char	**dup_map(t_game *game)
 	dest[i] = NULL;
 	return (dest);
 }
-
-void	flood_fill(char **map, t_game *game, t_player player, int fd)
+void flood_fill(char **map, t_game *game, int x, int y, int fd)
 {
-	if (player.y < 0 || player.y >= game->map_height || player.x < 0
-		|| player.x >= ft_strlen(map[player.y]))
-	{
-		free_array(map);
-		exit_error(game, "Error\nMap is open", fd);
-	}
-	if (map[player.y][player.x] == '1' || map[player.y][player.x] == 'F')
-		return ;
-	if (map[player.y][player.x] == ' ')
-	{
-		free_array(map);
-		exit_error(game, "Error\nMap is open", fd);
-	}
-	map[player.y][player.x] = 'F';
-	flood_fill(map, game, (t_player){player.x + 1, player.y, player.dir}, fd);
-	flood_fill(map, game, (t_player){player.x - 1, player.y, player.dir}, fd);
-	flood_fill(map, game, (t_player){player.x, player.y + 1, player.dir}, fd);
-	flood_fill(map, game, (t_player){player.x, player.y - 1, player.dir}, fd);
+    if (y < 0 || y >= game->map_height || x < 0 || x >= (int)ft_strlen(map[y]))
+    {
+        free_array(map);
+        exit_error(game, "Error\nMap is open", fd);
+    }
+    if (map[y][x] == '1' || map[y][x] == 'F')
+        return ;
+    if (map[y][x] == ' ')
+    {
+        free_array(map);
+        exit_error(game, "Error\nMap is open", fd);
+    }
+    map[y][x] = 'F';
+    flood_fill(map, game, x + 1, y, fd);
+    flood_fill(map, game, x - 1, y, fd);
+    flood_fill(map, game, x, y + 1, fd);
+    flood_fill(map, game, x, y - 1, fd);
 }

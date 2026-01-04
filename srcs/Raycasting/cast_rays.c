@@ -1,4 +1,5 @@
-#include "../includes/cub3d.h"
+# include "../includes/game.h"
+
 
 void put_pixel(void *mlx_ptr, void *win_ptr, int x, int y, int color)
 {
@@ -27,27 +28,18 @@ void draw_line(void *mlx_ptr, void *win_ptr, int x0, int y0, int x1, int y1, int
         y += y_inc;
     }
 }
-
-
-double normalize_angle(double angle)
-{
-    angle = fmod(angle, 2 * PI); // remainder = angle mod 2π 
-    if (angle < 0) // handle negative values
-        angle += 2 * PI;
-    return angle;
-}
-void cast_rays(t_box *box)
+void cast_rays(t_game *game)
 {
    double  angle_between_rays;
    int ray_num;
 
     ray_num = 60;
-    angle_between_rays = box->plyr->fov / ray_num;
-    box->plyr->p_angle = normalize_angle(box->plyr->p_angle);
-    box->ray->ray_angle = box->plyr->p_angle - (box->plyr->fov / 2); // start of the fov
+    angle_between_rays = game->player->fov / ray_num;
+    game->player->p_angle = normalize_angle(game->player->p_angle);
+    game->engine->ray_angle = game->player->p_angle - (game->player->fov); // start of the fov
     while (ray_num > 0)
     {
-        box->ray->ray_angle = normalize_angle(box->ray->ray_angle);
+        game->engine->ray_angle = normalize_angle(game->engine->ray_angle);
         horizontal_intersection_check(box);
         vertical_intersection_check(box);
         if (get_closest_distance(box) == 'v')
@@ -62,8 +54,3 @@ void cast_rays(t_box *box)
         ray_num--;
     }
 }
-
-
-
-
-

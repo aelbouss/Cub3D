@@ -6,11 +6,11 @@
 /*   By: aelbouss <aelbouss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/30 18:09:10 by rmaanane          #+#    #+#             */
-/*   Updated: 2026/01/03 17:33:06 by aelbouss         ###   ########.fr       */
+/*   Updated: 2026/01/03 20:53:47 by aelbouss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/parsing.h"
+#include "../includes/game.h"
 
 void	check_the_borders(t_game *game, int fd)
 {

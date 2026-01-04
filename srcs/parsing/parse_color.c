@@ -6,11 +6,11 @@
 /*   By: aelbouss <aelbouss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/30 18:04:18 by rmaanane          #+#    #+#             */
-/*   Updated: 2026/01/03 17:33:31 by aelbouss         ###   ########.fr       */
+/*   Updated: 2026/01/03 20:53:47 by aelbouss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/parsing.h"
+#include "../includes/game.h"
 
 int	is_number(char *str)
 {
