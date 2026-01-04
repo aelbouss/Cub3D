@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing.h                                          :+:      :+:    :+:   */
+/*   game.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aelbouss <aelbouss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/04 15:06:56 by rmaanane          #+#    #+#             */
-/*   Updated: 2026/01/03 17:37:18 by aelbouss         ###   ########.fr       */
+/*   Updated: 2026/01/03 20:53:06 by aelbouss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,9 @@
 # define A 97
 # define S 115
 # define D 100
+# define TILESIZE 64
+# define PLAYERSPEED 10
+# define PI 3.141592653589793
 
 typedef struct s_textures
 {
@@ -36,11 +39,21 @@ typedef struct s_textures
 	char		*so;
 	char		*we;
 	char		*ea;
+	void		*wold2d;
 	int			identifiers_count;
 	int			got_no;
 	int			got_so;
 	int			got_we;
 	int			got_ea;
+	int			bpp;
+	int			size_line;
+	char		*img_data;
+	void		*north;
+	void		*south;
+	void		*east;
+	void		*west;
+	int			indian;
+
 }				t_textures;
 
 typedef struct s_colors
@@ -57,16 +70,32 @@ typedef struct s_player
 	int			x;
 	int			y;
 	char		dir; // 'N', 'S', 'E', 'W'
+	double		p_angle;
+	double		fov;
+
+
 }				t_player;
+
+typedef	struct s_raycasting
+{
+	void	*mlx;
+	void	*mlx_win;
+	int		map_h;
+	int		map_w;
+	double	ray_angle;
+	
+}		t_raycasting;
 
 typedef struct s_game
 {
 	char		**map;
 	int			map_started;
 	int			map_height;
+	int			map_width;
 	t_textures	*tex;
 	t_colors	*colors;
 	t_player	*player;
+	t_raycasting	*engine;
 }				t_game;
 
 // parse_color
@@ -119,6 +148,18 @@ void			free_game(t_game *game);
 
 // flood_fill
 char			**dup_map(t_game *game);
-void			flood_fill(char **map, t_game *game, t_player player, int fd);
+void 			flood_fill(char **map, t_game *game, int x, int y, int fd);
+
+// raycasting prototypes
+
+t_game			*build_base();
+void			destroy_game1(t_game *game);
+void			destroy_game2(t_game *game);
+void			initialize_game_utils(t_game *game);
+void			generate_2d_world(t_game *game);
+void			setup_engine(t_game *game);
+int				allocate_textures(t_game *game);
+void			set_player_angle(t_game *game);
+int				has_wall(double x , double y , t_game *game);
 
 #endif

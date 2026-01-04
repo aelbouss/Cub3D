@@ -8,7 +8,7 @@ LIBFT = $(LIBFT_DIR)/libft.a
 
 MLX_FLAGS = -Lminilibx-linux -lmlx -L/usr/lib -lXext -lX11 -lm -lz
 
-SRCS = $(wildcard srcs/parsing/*.c) srcs/main.c  #$(wildcard srcs/Raycasting/*.c) 
+SRCS = $(wildcard srcs/parsing/*.c) $(wildcard srcs/Raycasting/*.c) srcs/main.c  
 
 OBJS = $(SRCS:.c=.o)
 
