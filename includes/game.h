@@ -19,19 +19,27 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
+# include <math.h>
 
 # define ESC_KEY 65307
 # define UP 65362
 # define DOWN 65364
 # define LEFT 65361
 # define RIGHT 65363
-# define W 119
-# define A 97
-# define S 115
-# define D 100
+
+# define s 115
+# define z 119
+# define q 97
+# define d 100
 # define TILESIZE 64
 # define PLAYERSPEED 10
+# define WALL_H 64
 # define PI 3.141592653589793
+# define RED 0xFF0000
+# define YEL 0xd3e90f
+# define BLUE 0X0000FF
+
+
 
 typedef struct s_textures
 {
@@ -67,11 +75,19 @@ typedef struct s_colors
 
 typedef struct s_player
 {
-	int			x;
-	int			y;
-	char		dir; // 'N', 'S', 'E', 'W'
-	double		p_angle;
-	double		fov;
+	double			x;
+	double			y;
+	char			dir; // 'N', 'S', 'E', 'W'
+	double			p_angle;
+	double			fov;
+	int				move_up;
+	int				move_down;
+	int				move_left;
+	int				move_right;
+	int				retate_left;
+	int				retate_right;
+	
+
 
 
 }				t_player;
@@ -83,6 +99,25 @@ typedef	struct s_raycasting
 	int		map_h;
 	int		map_w;
 	double	ray_angle;
+    double	h_hit_x;
+	double	h_hit_y;
+	double	v_hit_x;
+	double	v_hit_y;
+	double	x_step;
+	double	y_step;
+	double	next_x;
+	double	next_y;
+	double	near_x;
+	double	near_y;
+	double	dist_proj_plane;
+	double	wall_height;
+	double	correct_distance;
+	double	line_h;
+	double	final_dist;
+	double	draw_begin;
+	double	draw_end;
+	double	angle_diff; // fish_eye
+
 	
 }		t_raycasting;
 
@@ -160,6 +195,27 @@ void			generate_2d_world(t_game *game);
 void			setup_engine(t_game *game);
 int				allocate_textures(t_game *game);
 void			set_player_angle(t_game *game);
+double			normalize_angle(double angle);
 int				has_wall(double x , double y , t_game *game);
+void			put_pixel(void *mlx_ptr, void *win_ptr, int x, int y, int color);
+void			draw_line(void *mlx_ptr, void *win_ptr, int x0, int y0, int x1, int y1, int color);
+void			horizontal_intersection_check(t_game *game);
+void			vertical_intersection_check(t_game *game);
+ double			get_distance(double p1x, double p1y , double p2x, double p2y);
+char			get_closest_distance(t_game *game);
+void			cast_rays(t_game *game);
+int				handle_input(int keycode, t_game *game);
+void			walk_forward(t_game *game);
+void			walk_backward(t_game *game);
+void			walk_left(t_game *game);
+void			walk_right(t_game *game);
+void			retate_left(t_game *game);
+void			retate_right(t_game *game);
+void			draw_player (t_game *game);
+char	get_closest_distance(t_game *game);
+
+void draw_vertical_line(t_game *game, int x, int start_y, int end_y, int color);
+void put_pixel_to_image(t_game *g, char *img_data, int x, int y, int color, int bpp, int size_line);
+
 
 #endif

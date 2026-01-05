@@ -24,6 +24,10 @@ int	main(int ac, char **av)
 	parse_map(game, fd);
 	setup_engine(game);
 	generate_2d_world(game);
+	cast_rays(game);
+	mlx_key_hook(game->engine->mlx_win, handle_input, game);
+	mlx_hook(game->engine->mlx_win, 2, 1l<<0, handle_input, game);
+	mlx_hook(game->engine->mlx_win , 17, 0, handle_input, game);
 	mlx_loop(game->engine->mlx);
 	return (0);
 }

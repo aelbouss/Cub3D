@@ -2,61 +2,88 @@
 
 
 
-void horizontal_intersection_check(t_game *box)
+void horizontal_intersection_check(t_game *game)
 {
     double rayangle;
 
-    rayangle = normalize_angle(box->ray->ray_angle);
+    rayangle = normalize_angle(game->engine->ray_angle);
     if (rayangle > 0 && rayangle < PI) // looking down
-        box->ray->near_y = floor(box->plyr->p_y / TILESIZE) * TILESIZE + TILESIZE;
+        game->engine->near_y = floor(game->player->y / TILESIZE) * TILESIZE + TILESIZE;
     else // looking up
-        box->ray->near_y = floor(box->plyr->p_y / TILESIZE) * TILESIZE - 1; // small offset for top-left corner
-    box->ray->near_x = box->plyr->p_x + (box->ray->near_y - box->plyr->p_y) / tan(rayangle);
+        game->engine->near_y = floor(game->player->y / TILESIZE) * TILESIZE - 1; // small offset for top-left corner
+    game->engine->near_x = game->player->x + (game->engine->near_y - game->player->y ) / tan(rayangle);
     if (rayangle > 0 && rayangle < PI) // looking down
-        box->ray->y_step = TILESIZE;
+        game->engine->y_step = TILESIZE;
     else
-        box->ray->y_step = -TILESIZE;
-    box->ray->x_step = box->ray->y_step / tan(rayangle);
-    box->ray->next_x = box->ray->near_x;
-    box->ray->near_y = box->ray->near_y;
-    while (box->ray->next_x >= 0 && box->ray->next_x <= box->ray->game_w &&
-           box->ray->near_y >= 0 && box->ray->near_y <= box->ray->game_h &&
-           !has_wall(box, box->ray->next_x, box->ray->near_y))
+        game->engine->y_step = -TILESIZE;
+    game->engine->x_step = game->engine->y_step / tan(rayangle);
+    game->engine->next_x = game->engine->near_x;
+    game->engine->near_y = game->engine->near_y;
+    while (game->engine->next_x >= 0 && game->engine->next_x <= game->engine->map_w &&
+           game->engine->near_y >= 0 && game->engine->near_y <= game->engine->map_h &&
+           !has_wall(game->engine->next_x, game->engine->near_y, game))
     {
-        box->ray->next_x += box->ray->x_step;
-        box->ray->near_y += box->ray->y_step;
+        game->engine->next_x += game->engine->x_step;
+        game->engine->near_y += game->engine->y_step;
     }
-    box->ray->h_hit_x = box->ray->next_x;
-    box->ray->h_hit_y = box->ray->near_y;
+    game->engine->h_hit_x = game->engine->next_x;
+    game->engine->h_hit_y = game->engine->near_y;
 }
 
-void vertical_intersection_check(t_game *box)
+void vertical_intersection_check(t_game *game)
 {
     double rayangle;
 
-    rayangle = normalize_angle(box->ray->ray_angle);
+    rayangle = normalize_angle(game->engine->ray_angle);
     if (rayangle < 1.5 * PI && rayangle > 0.5 * PI) // looking left
-        box->ray->near_x = floor(box->plyr->p_x / TILESIZE) * TILESIZE - 1; // offset for top-left corner
+        game->engine->near_x = floor(game->player->x / TILESIZE) * TILESIZE - 1; // offset for top-left corner
     else // looking right
-        box->ray->near_x = floor(box->plyr->p_x / TILESIZE) * TILESIZE + TILESIZE;
-    box->ray->near_y = box->plyr->p_y + (box->ray->near_x - box->plyr->p_x) * tan(rayangle);
+        game->engine->near_x = floor(game->player->x / TILESIZE) * TILESIZE + TILESIZE;
+    game->engine->near_y = game->player->y + (game->engine->near_x - game->player->x) * tan(rayangle);
     if (rayangle < 1.5 * PI && rayangle > 0.5 * PI) // looking left
-        box->ray->x_step = -TILESIZE;
+       game->engine->x_step = -TILESIZE;
     else
-        box->ray->x_step = TILESIZE;
-    box->ray->y_step = box->ray->x_step * tan(rayangle);
-    box->ray->next_x = box->ray->near_x;
-    box->ray->next_y = box->ray->near_y;
-    while (box->ray->next_x >= 0 && box->ray->next_x <= box->ray->game_w &&
-           box->ray->next_y >= 0 && box->ray->next_y <= box->ray->game_h &&
-           !has_wall(box, box->ray->next_x, box->ray->next_y))
+       game->engine->x_step = TILESIZE;
+    game->engine->y_step = game->engine->x_step * tan(rayangle);
+    game->engine->next_x = game->engine->near_x;
+    game->engine->next_y = game->engine->near_y;
+    while (game->engine->next_x >= 0 && game->engine->next_x <= game->engine->map_w &&
+           game->engine->next_y >= 0 && game->engine->next_y <= game->engine->map_h &&
+           !has_wall(game->engine->next_x, game->engine->next_y, game))
     {
-        box->ray->next_x += box->ray->x_step;
-        box->ray->next_y += box->ray->y_step;
+        game->engine->next_x += game->engine->x_step;
+        game->engine->next_y += game->engine->y_step;
     }
-    box->ray->v_hit_x = box->ray->next_x;
-    box->ray->v_hit_y = box->ray->next_y;
+    game->engine->v_hit_x = game->engine->next_x;
+    game->engine->v_hit_y = game->engine->next_y;
 }
+
+// void cast_rays(t_game *game)
+// {
+//    double  angle_between_rays;
+//    int ray_num;
+
+//     ray_num = 60;
+//     angle_between_rays = game->player->fov / ray_num;
+//     game->player->p_angle = normalize_angle(game->player->p_angle);
+//     game->engine->ray_angle = game->player->p_angle - (game->player->fov / 2); // start of the fov
+//     while (ray_num > 0)
+//     {
+//         game->engine->ray_angle = normalize_angle(game->engine->ray_angle);
+//         horizontal_intersection_check(game);
+//         vertical_intersection_check(game);
+//         if (get_closest_distance(game) == 'v')
+//             draw_line(game->engine->mlx, game->engine->mlx_win ,game->player->x, game->player->y, game->engine->v_hit_x, game->engine->v_hit_y, RED);
+//         else
+//             draw_line(game->engine->mlx, game->engine->mlx_win ,game->player->x, game->player->y, game->engine->h_hit_x, game->engine->h_hit_y, RED);
+//         game->engine->ray_angle += angle_between_rays ;
+//         game->engine->h_hit_x = 0;
+//         game->engine->h_hit_y = 0;
+//         game->engine->v_hit_x = 0;
+//         game->engine->v_hit_y = 0;
+//         ray_num--;
+//     }
+// }
 
 double  get_distance(double p1x, double p1y , double p2x, double p2y)
 {
@@ -67,14 +94,18 @@ double  get_distance(double p1x, double p1y , double p2x, double p2y)
     sd = p1y - p2y ;
     return(sqrt(fd * fd + sd * sd));
 }
-char    get_closest_distance(t_game *box)
+char    get_closest_distance(t_game *game)
 {
     double  v_distance;
     double  h_distance;
 
-    v_distance = get_distance(box->plyr->p_x, box->plyr->p_y, box->ray->v_hit_x, box->ray->v_hit_y);
-    h_distance = get_distance(box->plyr->p_x, box->plyr->p_y, box->ray->h_hit_x, box->ray->h_hit_y);
+    v_distance = get_distance(game->player->x, game->player->y, game->engine->v_hit_x, game->engine->v_hit_y);
+    h_distance = get_distance(game->player->x, game->player->y, game->engine->h_hit_x, game->engine->h_hit_y);
     if (v_distance <= h_distance)
+    {
+        game->engine->final_dist = v_distance;
         return ('v');
+    }
+    game->engine->final_dist = h_distance;
     return ('h');
 }

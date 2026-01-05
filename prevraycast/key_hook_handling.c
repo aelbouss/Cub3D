@@ -1,93 +1,87 @@
-#include  "../includes/cub3d.h"
+#include  "../includes/game.h"
 
 
 
-int	walk_forward(t_box *box)
+int	walk_forward(t_game *game)
 {
 	double	px;
 	double	py;
 
-	px = box->plyr->p_x + cos(box->plyr->p_angle) * PLYRSPEED;
-	py = box->plyr->p_y + sin(box->plyr->p_angle) * PLYRSPEED;
-	if (has_wall(box, px, py))
+	px = game->player->x + cos(game->player->p_angle) * PLAYERSPEED;
+	py = game->player->y + sin(game->player->p_angle) * PLAYERSPEED;
+	if (has_wall(px, py, game))
 		return (1);
-	box->plyr->p_x += cos(box->plyr->p_angle) * PLYRSPEED;
-	box->plyr->p_y += sin(box->plyr->p_angle) * PLYRSPEED;
-	draw_2d_world(box);
-	draw_player(box);
-	cast_rays(box);
+	game->player->x += cos(game->player->p_angle) * PLAYERSPEED;
+	game->player->y += sin(game->player->p_angle) * PLAYERSPEED;
+	generate_2d_world(game);
+	cast_rays(game);
 	return (0);
 }
 
-int	walk_backward(t_box *box)
+int	walk_backward(t_game *game)
 {
 	double	px;
 	double	py;
 
-	px = box->plyr->p_x - cos(box->plyr->p_angle) * PLYRSPEED;
-	py = box->plyr->p_y - sin(box->plyr->p_angle) * PLYRSPEED;
-	if (has_wall(box, px, py))
+	px = game->player->x - cos(game->player->p_angle) * PLAYERSPEED;
+	py = game->player->y - sin(game->player->p_angle) * PLAYERSPEED;
+	if (has_wall(px, py, game))
 		return (1);
-	box->plyr->p_x -= cos(box->plyr->p_angle) * PLYRSPEED;
-	box->plyr->p_y -= sin(box->plyr->p_angle) * PLYRSPEED;
-	draw_2d_world(box);
-	draw_player(box);
-	cast_rays(box);
+	game->player->x -= cos(game->player->p_angle) * PLAYERSPEED;
+	game->player->y -= sin(game->player->p_angle) * PLAYERSPEED;
+	generate_2d_world(game);
+	cast_rays(game);
 	return (0);
 }
 
 
 
-int	walk_left(t_box *box)
+int	walk_left(t_game *game)
 {
 	double	px;
 	double	py;
 
-	px = box->plyr->p_x + cos(box->plyr->p_angle) * PLYRSPEED;
-	py = box->plyr->p_y - sin(box->plyr->p_angle) * PLYRSPEED;
-	if (has_wall(box, px, py))
+	px = game->player->x + cos(game->player->p_angle) * PLAYERSPEED;
+	py = game->player->y - sin(game->player->p_angle) * PLAYERSPEED;
+	if (has_wall(px, py, game))
 		return (1);
-	box->plyr->p_x += sin(box->plyr->p_angle) * PLYRSPEED;
-	box->plyr->p_y -= cos(box->plyr->p_angle) * PLYRSPEED;
-	draw_2d_world(box);
-	draw_player(box);
-	cast_rays(box);
+	game->player->x += sin(game->player->p_angle) * PLAYERSPEED;
+	game->player->y -= cos(game->player->p_angle) * PLAYERSPEED;
+	generate_2d_world(game);
+	cast_rays(game);
 	return (0);
 }
 
-int	walk_right(t_box *box)
+int	walk_right(t_game *game)
 {
 	double	px;
 	double	py;
 
-	px = box->plyr->p_x - cos(box->plyr->p_angle) * PLYRSPEED;
-	py = box->plyr->p_y + sin(box->plyr->p_angle) * PLYRSPEED;
-	if (has_wall(box, px, py))
+	px = game->player->x - cos(game->player->p_angle) * PLAYERSPEED;
+	py = game->player->y + sin(game->player->p_angle) * PLAYERSPEED;
+	if (has_wall(px, py, game))
 		return (1);
-	box->plyr->p_x -= sin(box->plyr->p_angle) * PLYRSPEED;
-	box->plyr->p_y += cos(box->plyr->p_angle) * PLYRSPEED;
-	draw_2d_world(box);
-	draw_player(box);
-	cast_rays(box);
+	game->player->x -= sin(game->player->p_angle) * PLAYERSPEED;
+	game->player->y += cos(game->player->p_angle) * PLAYERSPEED;
+	generate_2d_world(game);
+	cast_rays(game);
 	return (0);
 }
 
-int	retate_right(t_box *box)
+int	retate_right(t_game *game)
 {
-	box->plyr->p_angle += 0.1;
-	box->plyr->p_angle = normalize_angle(box->plyr->p_angle);
-    draw_2d_world(box);
-    draw_player(box);
-	cast_rays(box);
+	game->player->p_angle += 0.1;
+	game->player->p_angle = normalize_angle(game->player->p_angle);
+    generate_2d_world(game);
+	cast_rays(game);
 	return (0);
 }
 
-int	retate_left(t_box *box)
+int	retate_left(t_game *game)
 {
-	box->plyr->p_angle -= 0.1;
-	box->plyr->p_angle = normalize_angle(box->plyr->p_angle);
-   	draw_2d_world(box);
-   	draw_player(box);
-	cast_rays(box);
+	game->player->p_angle -= 0.1;
+	game->player->p_angle = normalize_angle(game->player->p_angle);
+    generate_2d_world(game);
+	cast_rays(game);
 	return (0);
 }
