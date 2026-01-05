@@ -50,7 +50,7 @@ void	walk_forward(t_game *game)
 		return ;
 	game->player->x = px;
 	game->player->y = py;
-	cast_3d_walls(game);
+	
 }
 
 void	walk_backward(t_game *game)
@@ -61,11 +61,10 @@ void	walk_backward(t_game *game)
 	px = game->player->x - cos(game->player->p_angle) * PLAYERSPEED;
 	py = game->player->y - sin(game->player->p_angle) * PLAYERSPEED;
 
-	if (has_wall(px, py, game))
-		return ;
-	game->player->x = px;
-	game->player->y = py;
-	cast_3d_walls(game);
+	if (!has_wall(px, game->player->y, game))
+		game->player->x = px;
+	if (!has_wall(game->player->y, px, game))
+		game->player->y = py;
 }
 
 void	walk_left(t_game *game)
@@ -76,11 +75,11 @@ void	walk_left(t_game *game)
 	px = game->player->x + sin(game->player->p_angle) * PLAYERSPEED;
 	py = game->player->y - cos(game->player->p_angle) * PLAYERSPEED;
 
-	if (has_wall(px, py, game))
-		return ;
-	game->player->x = px;
-	game->player->y = py;
-	cast_3d_walls(game);
+	if (!has_wall(px, game->player->y, game))
+		game->player->x = px;
+	if (!has_wall(game->player->y, px, game))
+		game->player->y = py;
+	
 }
 
 void	walk_right(t_game *game)
@@ -89,14 +88,14 @@ void	walk_right(t_game *game)
 	double	py;
 
 	// Move perpendicular to the player's angle (right/strafe)
-	px = game->player->x + sin(game->player->p_angle) * PLAYERSPEED;
-	py = game->player->y - cos(game->player->p_angle) * PLAYERSPEED;
+	px = game->player->x - sin(game->player->p_angle) * PLAYERSPEED;
+	py = game->player->y + cos(game->player->p_angle) * PLAYERSPEED;
 
-	if (has_wall(px, py, game))
-		return ;
-	game->player->x = px;
-	game->player->y = py;
-	cast_3d_walls(game);
+	if (!has_wall(px, game->player->y, game))
+		game->player->x = px;
+	if (!has_wall(game->player->y, px, game))
+		game->player->y = py;
+	
 }
 
 double normalize_angle(double angle)
@@ -111,14 +110,14 @@ void	rotate_left(t_game *game)
 {
 	game->player->p_angle -= 0.1;
 	game->player->p_angle = normalize_angle(game->player->p_angle);
-	cast_3d_walls(game);
+	
 }
 
 void	rotate_right(t_game *game)
 {
 	game->player->p_angle += 0.1;
 	game->player->p_angle = normalize_angle(game->player->p_angle);
-	cast_3d_walls(game);
+	
 }
 
 void	draw_player (t_game *game)

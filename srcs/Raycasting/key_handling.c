@@ -46,19 +46,18 @@ int	is_released(int keycode, t_game *game)
 int	handle_input(t_game *game)
 {
 
-	if (!game)
-		dprintf(2, "Error: Game not initialized\n");
-	if (game->player->move_up == 1)
-		walk_forward(game);
-	else if (game->player->move_down == 1)
-		walk_backward(game);
-	else if (game->player->move_left == 1)
-		walk_left(game);
-	else if (game->player->move_right == 1)
-		walk_right(game);
-	else if (game->player->rotate_left == 1)
-		rotate_left(game);
-	else if (game->player->rotate_right == 1)
-		rotate_right(game);
+	if (game->player->rotate_left == 1)
+        rotate_left(game);
+    if (game->player->rotate_right == 1)
+        rotate_right(game);
+    if (game->player->move_up == 1)
+        walk_forward(game);
+    if (game->player->move_down == 1)
+        walk_backward(game);
+    if (game->player->move_left == 1)
+        walk_left(game);
+    if (game->player->move_right == 1)
+        walk_right(game);
+    cast_3d_walls(game);
 	return (0);
 }
