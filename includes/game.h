@@ -32,7 +32,7 @@
 # define q 97
 # define d 100
 # define TILESIZE 64
-# define PLAYERSPEED 10
+# define PLAYERSPEED 3
 # define WALL_H 64
 # define PI 3.141592653589793
 # define RED 0xFF0000
@@ -84,8 +84,8 @@ typedef struct s_player
 	int				move_down;
 	int				move_left;
 	int				move_right;
-	int				retate_left;
-	int				retate_right;
+	int				rotate_left;
+	int				rotate_right;
 	
 
 
@@ -204,18 +204,20 @@ void			vertical_intersection_check(t_game *game);
  double			get_distance(double p1x, double p1y , double p2x, double p2y);
 char			get_closest_distance(t_game *game);
 void			cast_rays(t_game *game);
-int				handle_input(int keycode, t_game *game);
+int				handle_input(t_game *game);
 void			walk_forward(t_game *game);
 void			walk_backward(t_game *game);
 void			walk_left(t_game *game);
 void			walk_right(t_game *game);
-void			retate_left(t_game *game);
-void			retate_right(t_game *game);
+void			rotate_left(t_game *game);
+void			rotate_right(t_game *game);
 void			draw_player (t_game *game);
-char	get_closest_distance(t_game *game);
+char			get_closest_distance(t_game *game);
 
-void draw_vertical_line(t_game *game, int x, int start_y, int end_y, int color);
-void put_pixel_to_image(t_game *g, char *img_data, int x, int y, int color, int bpp, int size_line);
-
+void 			draw_vertical_line(t_game *game, int x, int start_y, int end_y, int color);
+void 			put_pixel_to_image(t_game *g, char *img_data, int x, int y, int color, int bpp, int size_line);
+void			cast_3d_walls(t_game *game);
+int				is_released(int keycode, t_game *game);
+int				is_pressed(int keycode, t_game *game);
 
 #endif

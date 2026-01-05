@@ -1,6 +1,5 @@
 # include "../includes/game.h"
 
-
 t_game	*build_base()
 {
 	t_game	*game;
@@ -54,6 +53,13 @@ void	initialize_game_utils(t_game *game)
     game->tex->ea = NULL;
     game->colors->floor = -1;
     game->colors->ceiling = -1;
+	game->player->move_up = 0;
+	game->player->move_down = 0;
+	game->player->move_left = 0;
+	game->player->move_right = 0;
+	game->player->rotate_left = 0;
+	game->player->rotate_right = 0;	
+	
 }
 
 void	setup_engine(t_game *game)

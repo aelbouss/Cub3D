@@ -23,11 +23,16 @@ int	main(int ac, char **av)
 	initialize_game_utils(game);
 	parse_map(game, fd);
 	setup_engine(game);
-	generate_2d_world(game);
-	cast_rays(game);
-	mlx_key_hook(game->engine->mlx_win, handle_input, game);
-	mlx_hook(game->engine->mlx_win, 2, 1l<<0, handle_input, game);
-	mlx_hook(game->engine->mlx_win , 17, 0, handle_input, game);
+	// generate_2d_world(game);
+	// cast_rays(game);
+	// Key press event (key down)
+	cast_3d_walls(game);
+	mlx_hook(game->engine->mlx_win, 2, 1L << 0, is_pressed, game);
+	mlx_hook(game->engine->mlx_win, 3, 1L << 1, is_released, game);
+	mlx_loop_hook(game->engine->mlx, handle_input, game);
+	
+	printf("Game initialized successfully\n");
+
 	mlx_loop(game->engine->mlx);
 	return (0);
 }
