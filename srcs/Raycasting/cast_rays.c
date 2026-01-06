@@ -11,7 +11,7 @@ unsigned int get_pixel_color(t_img *tex, int x, int y)
     return (*(unsigned int *)dst);
 }
 
-void calculate_wall_geometry(t_game *game)
+void calculate_wall_dependencies(t_game *game)
 {
     double dist;
 
@@ -31,7 +31,6 @@ void calculate_wall_geometry(t_game *game)
     if (game->engine->wall_bottom_p >= game->engine->map_h) 
         game->engine->wall_bottom_p = game->engine->map_h - 1;
 }
-
 
 t_img   *select_texture(t_game *game , char side)
 {
@@ -76,7 +75,6 @@ t_img *get_texture_info(t_game *game, int *texX)
     if ((side == 'v' && game->engine->ray_angle > PI / 2 && game->engine->ray_angle < 3 * PI / 2) ||
         (side == 'h' && !(game->engine->ray_angle > PI && game->engine->ray_angle < 2 * PI)))
         *texX = tex->width - *texX - 1;
-
     return (tex);
 }
 
@@ -171,7 +169,7 @@ void cast_3d_walls(t_game *game)
         vertical_intersection_check(game);
 
         // 5. Calculate Physics (Height, Dist)
-        calculate_wall_geometry(game);
+        calculate_wall_dependencies(game);
 
         // 6. Draw Everything (Using the new clean function)
         draw_complete_column(game, &buffer, x);

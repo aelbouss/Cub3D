@@ -249,6 +249,7 @@ void load_texture(t_game *game, t_img *tex, char *path);
 
 void    allocate_img(t_game *game, t_img *img);
 void    draw_celling(t_game *game, t_img *img, int x , int y, int color);
+void	calculate_wall_dependencies(t_game *game);
 
 
 #endif
