@@ -121,11 +121,7 @@ typedef	struct s_raycasting
 	double	dist_proj_plane;
 	double	wall_height;
 	double	corrected_dist;
-	double	line_h;
 	double	final_dist;
-	double	draw_begin;
-	double	draw_end;
-	double	angle_diff; // fish_eye
 	int     cur_x;
 	int		wall_bottom_p;
 	int		wall_top_p;

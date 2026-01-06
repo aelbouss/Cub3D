@@ -1,7 +1,6 @@
 # include "../includes/game.h"
 
 
-
 unsigned int get_pixel_color(t_img *tex, int x, int y)
 {
     char *dst;
@@ -12,44 +11,47 @@ unsigned int get_pixel_color(t_img *tex, int x, int y)
     return (*(unsigned int *)dst);
 }
 
-// void put_pixel_to_buffer(char *buffer, int size_line, int bpp, int x, int y, int color)
-// {
-//     char *dst;
-
-//     // Calculate memory offset: (y * line_length) + (x * bytes_per_pixel)
-//     dst = buffer + (y * size_line + x * (bpp / 8));
-    
-//     // Write the color to that memory address
-//     *(unsigned int *)dst = color;
-// }
-
-
 void calculate_wall_geometry(t_game *game)
 {
     double dist;
 
     // 1. Get raw distance
-    if (get_closest_distance(game) == 'v')
-        dist = game->engine->final_dist;
-    else
-        dist = game->engine->final_dist;
-
+    dist = game->engine->final_dist;
     // 2. Fix Fish-Eye Effect
     game->engine->corrected_dist = dist * cos(game->engine->ray_angle - game->player->p_angle);
     if (game->engine->corrected_dist < 0.0001) 
         game->engine->corrected_dist = 0.0001;
-
     // 3. Calculate Height
     game->engine->wall_height = (TILESIZE / game->engine->corrected_dist) * game->engine->dist_proj_plane;
-
     // 4. Calculate Draw Start/End (Clamped)
     game->engine->wall_top_p = (game->engine->map_h / 2) - (game->engine->wall_height / 2);
     if (game->engine->wall_top_p < 0) 
         game->engine->wall_top_p = 0;
-
     game->engine->wall_bottom_p = (game->engine->map_h / 2) + (game->engine->wall_height / 2);
     if (game->engine->wall_bottom_p >= game->engine->map_h) 
         game->engine->wall_bottom_p = game->engine->map_h - 1;
+}
+
+
+t_img   *select_texture(t_game *game , char side)
+{
+       if (side == 'v')
+    {
+        // Check if looking Left (West)
+        if (game->engine->ray_angle > PI / 2 && game->engine->ray_angle < 3 * PI / 2) // either left or  right (west or east)
+            return (&game->tex->west);
+        else
+            return (&game->tex->east);
+    }
+    else
+    {
+        // Check if looking Up (South facing wall) vs Down (North facing wall)
+        if (game->engine->ray_angle > PI && game->engine->ray_angle < 2 * PI) // check north or south (up down)
+            return(&game->tex->south);
+        else
+            return (&game->tex->north);
+    }
+    return (NULL) ;
 }
 
 t_img *get_texture_info(t_game *game, int *texX)
@@ -58,21 +60,15 @@ t_img *get_texture_info(t_game *game, int *texX)
     double  wallX;
     char    side;
 
+    tex = NULL ;
     side = get_closest_distance(game);
-    
-    // 1. Select Texture Image
-    if (side == 'v')
-        tex = (game->engine->ray_angle > PI / 2 && game->engine->ray_angle < 3 * PI / 2) ? &game->tex->west : &game->tex->east;
-    else
-        tex = (game->engine->ray_angle > PI && game->engine->ray_angle < 2 * PI) ? &game->tex->south : &game->tex->north;
-
+    tex = select_texture(game, side);
     // 2. Calculate Wall X (where exactly we hit the wall)
     if (side == 'v')
         wallX = game->engine->v_hit_y / TILESIZE;
     else
         wallX = game->engine->h_hit_x / TILESIZE;
     wallX -= floor(wallX); 
-
     // 3. Calculate Texture X
     *texX = (int)(wallX * (double)tex->width);
 
@@ -93,7 +89,6 @@ void    put_pixel_to_img(t_img *img, int x, int y, int color)
     dst = img->addr + (y * img->line_len + x * (img->bpp / 8));
     *(unsigned int *)dst = color;
 }
-
 
 void    draw_wall_texture(t_game *game, t_img *buffer, int x)
 {
@@ -119,14 +114,11 @@ void    draw_wall_texture(t_game *game, t_img *buffer, int x)
             texY = tex->height - 1;
         if (texY < 0) 
             texY = 0;
-            
         texPos += step;
         put_pixel_to_img(buffer, x, y, get_pixel_color(tex, texX, texY));
         y++;
     }
 }
-
-
 
 void    draw_complete_column(t_game *game, t_img *buffer, int x)
 {
