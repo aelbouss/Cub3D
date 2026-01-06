@@ -6,7 +6,7 @@
 /*   By: aelbouss <aelbouss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/30 18:02:34 by rmaanane          #+#    #+#             */
-/*   Updated: 2026/01/03 20:53:47 by aelbouss         ###   ########.fr       */
+/*   Updated: 2026/01/07 00:32:01 by aelbouss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,9 @@ void	check_path_textures(t_game *game)
 {
 	char	*paths[4];
 	int		i;
-	int		len;
-	int		fd;
+	int		(len) , (fd);
 
+	fd  = 0;
 	paths[0] = game->tex->no;
 	paths[1] = game->tex->so;
 	paths[2] = game->tex->we;

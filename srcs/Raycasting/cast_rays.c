@@ -98,7 +98,6 @@ void    draw_wall_texture(t_game *game, t_img *buffer, int x)
 
     tex = get_texture_info(game, &texX);
     step = 1.0 * tex->height / game->engine->wall_height;
-    
     // Calculate initial texture position (Fix floating bug)
     texPos = (game->engine->wall_top_p - ((game->engine->map_h / 2) 
             - ((int)game->engine->wall_height / 2))) * step;
@@ -118,27 +117,22 @@ void    draw_wall_texture(t_game *game, t_img *buffer, int x)
     }
 }
 
-void    draw_complete_column(t_game *game, t_img *buffer, int x)
+void    draw_column(t_game *game, t_img *buffer, int x)
 {
-    int y;
+    int i;
 
-    // 1. Draw Ceiling
-    y = 0;
-    while (y < game->engine->wall_top_p)
+    i = 0;
+    while (i < game->engine->wall_top_p)
     {
-        put_pixel_to_img(buffer, x, y, game->colors->ceiling);
-        y++;
+        put_pixel_to_img(buffer, x, i, game->colors->ceiling);
+        i++;
     }
-
-    // 2. Draw Wall (Call the sub-function)
     draw_wall_texture(game, buffer, x);
-
-    // 3. Draw Floor
-    y = game->engine->wall_bottom_p + 1;
-    while (y < game->engine->map_h)
+    i = game->engine->wall_bottom_p + 1;
+    while (i < game->engine->map_h)
     {
-        put_pixel_to_img(buffer, x, y, game->colors->floor);
-        y++;
+        put_pixel_to_img(buffer, x, i, game->colors->floor);
+        i++;
     }
 }
 
@@ -172,12 +166,11 @@ void cast_3d_walls(t_game *game)
         calculate_wall_dependencies(game);
 
         // 6. Draw Everything (Using the new clean function)
-        draw_complete_column(game, &buffer, x);
+        draw_column(game, &buffer, x);
 
         x++;
     }
-    
-    // 7. Push to window & Clean up
+
     mlx_put_image_to_window(game->engine->mlx, game->engine->mlx_win, buffer.img_ptr, 0, 0);
     mlx_destroy_image(game->engine->mlx, buffer.img_ptr);
 }

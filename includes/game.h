@@ -32,12 +32,15 @@
 # define q 97
 # define d 100
 # define TILESIZE 64
-# define PLAYERSPEED 5
+# define PLAYERSPEED 3
 # define WALL_H 64
 # define PI 3.141592653589793
 # define RED 0xFF0000
 # define YEL 0xd3e90f
 # define BLUE 0X0000FF
+
+# define SCREEN_H 720
+# define SCREEN_W 1248
 
 
 
