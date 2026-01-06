@@ -12,6 +12,12 @@ void load_texture(t_game *game, t_img *tex, char *path)
     tex->addr = mlx_get_data_addr(tex->image, &tex->bpp, &tex->line_len, &tex->endian);
 }
 
+void    allocate_img(t_game *game, t_img *img)
+{
+    img->image =  mlx_new_image(game->engine->mlx, game->engine->map_w, game->engine->map_h);
+    img->addr = mlx_get_data_addr(img->image, &img->bpp, &img->line_len, &img->endian);
+}
+
 // Updated allocate_textures
 int allocate_textures(t_game *game)
 {

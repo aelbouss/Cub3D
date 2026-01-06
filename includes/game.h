@@ -41,6 +41,7 @@
 
 
 
+
 typedef struct s_img 
 {
     void    *img_ptr;
@@ -59,7 +60,6 @@ typedef struct s_textures
 	char		*so;
 	char		*we;
 	char		*ea;
-	void		*wold2d;
 	int			identifiers_count;
 	int			got_no;
 	int			got_so;
@@ -120,14 +120,16 @@ typedef	struct s_raycasting
 	double	near_y;
 	double	dist_proj_plane;
 	double	wall_height;
-	double	correct_distance;
+	double	corrected_dist;
 	double	line_h;
 	double	final_dist;
 	double	draw_begin;
 	double	draw_end;
 	double	angle_diff; // fish_eye
 	int     cur_x;
-
+	int		wall_bottom_p;
+	int		wall_top_p;
+	t_img	world_3d;
 	
 }		t_raycasting;
 
@@ -199,38 +201,58 @@ void 			flood_fill(char **map, t_game *game, int x, int y, int fd);
 
 t_game			*build_base();
 void			destroy_game1(t_game *game);
+
 void			destroy_game2(t_game *game);
 void			initialize_game_utils(t_game *game);
+
 void			generate_2d_world(t_game *game);
 void			setup_engine(t_game *game);
+
 int				allocate_textures(t_game *game);
 void			set_player_angle(t_game *game);
+
 double			normalize_angle(double angle);
 int				has_wall(double x , double y , t_game *game);
+
 void			put_pixel(void *mlx_ptr, void *win_ptr, int x, int y, int color);
 void			draw_line(void *mlx_ptr, void *win_ptr, int x0, int y0, int x1, int y1, int color);
+
 void			horizontal_intersection_check(t_game *game);
 void			vertical_intersection_check(t_game *game);
+
  double			get_distance(double p1x, double p1y , double p2x, double p2y);
 char			get_closest_distance(t_game *game);
+
 void			cast_rays(t_game *game);
 int				handle_input(t_game *game);
+
 void			walk_forward(t_game *game);
 void			walk_backward(t_game *game);
+
 void			walk_left(t_game *game);
 void			walk_right(t_game *game);
+
 void			rotate_left(t_game *game);
 void			rotate_right(t_game *game);
+
 void			draw_player (t_game *game);
 char			get_closest_distance(t_game *game);
 
 void 			draw_vertical_line(t_game *game, int x, int start_y, int end_y, int color);
-void 			put_pixel_to_image(t_game *g, char *img_data, int x, int y, int color, int bpp, int size_line);
+void			put_pixel_to_buffer(char *buffer, int size_line, int bpp, int x, int y, int color);
 // void			cast_3d_walls(t_game *game);
 int				is_released(int keycode, t_game *game);
 int				is_pressed(int keycode, t_game *game);
+
 void			draw_textured_wall(t_game *game);
 void			cast_3d_walls(t_game *game);
+unsigned int    get_pixel_color(t_img *tex, int x, int y);
+
+
+void load_texture(t_game *game, t_img *tex, char *path);
+
+void    allocate_img(t_game *game, t_img *img);
+void    draw_celling(t_game *game, t_img *img, int x , int y, int color);
 
 
 #endif

@@ -44,7 +44,6 @@ void	destroy_game(t_game *game) // will free all the allocations
 
 void	initialize_game_utils(t_game *game)
 {
-	game->map = NULL;
     game->map_height = 0;
     game->map_started = 0;
     game->tex->no = NULL;
@@ -58,8 +57,7 @@ void	initialize_game_utils(t_game *game)
 	game->player->move_left = 0;
 	game->player->move_right = 0;
 	game->player->rotate_left = 0;
-	game->player->rotate_right = 0;	
-	
+	game->player->rotate_right = 0;
 }
 
 void	setup_engine(t_game *game)

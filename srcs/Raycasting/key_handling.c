@@ -41,7 +41,6 @@ int	is_released(int keycode, t_game *game)
 		game->player->rotate_right = 0;
 	return (0);
 }
-
 // This function should be called every frame for smooth input handling
 int	handle_input(t_game *game)
 {
