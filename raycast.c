@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   check_path_textures.c                              :+:      :+:    :+:   */
+/*   raycast.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aelbouss <aelbouss@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rmaanane <ridamaanane@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/30 18:02:34 by rmaanane          #+#    #+#             */
-/*   Updated: 2026/01/03 20:53:47 by aelbouss         ###   ########.fr       */
+/*   Updated: 2026/01/06 15:56:15 by rmaanane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -1086,7 +1086,7 @@ char    get_closest_distance(t_game *game)
     }
     game->engine->final_dist = h_distance;
     return ('h');
-}# include "../includes/game.h"
+}
 
 
 int	is_pressed(int keycode, t_game *game)
