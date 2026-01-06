@@ -32,7 +32,7 @@
 # define q 97
 # define d 100
 # define TILESIZE 64
-# define PLAYERSPEED 3
+# define PLAYERSPEED 5
 # define WALL_H 64
 # define PI 3.141592653589793
 # define RED 0xFF0000
@@ -40,6 +40,18 @@
 # define BLUE 0X0000FF
 
 
+
+typedef struct s_img 
+{
+    void    *img_ptr;
+    char    *addr;
+    int     bpp;
+    int     line_len;
+    int     endian;
+    int     width;
+    int     height;
+	void	*image;
+} t_img;
 
 typedef struct s_textures
 {
@@ -53,15 +65,15 @@ typedef struct s_textures
 	int			got_so;
 	int			got_we;
 	int			got_ea;
-	int			bpp;
-	int			size_line;
-	char		*img_data;
-	void		*north;
-	void		*south;
-	void		*east;
-	void		*west;
-	int			indian;
 
+
+	t_img		north;
+	t_img		south;
+	t_img		east;
+	t_img		west;
+
+	int			floor;
+	int			ceiling;
 }				t_textures;
 
 typedef struct s_colors
@@ -87,9 +99,6 @@ typedef struct s_player
 	int				rotate_left;
 	int				rotate_right;
 	
-
-
-
 }				t_player;
 
 typedef	struct s_raycasting
@@ -117,6 +126,7 @@ typedef	struct s_raycasting
 	double	draw_begin;
 	double	draw_end;
 	double	angle_diff; // fish_eye
+	int     cur_x;
 
 	
 }		t_raycasting;
@@ -216,8 +226,11 @@ char			get_closest_distance(t_game *game);
 
 void 			draw_vertical_line(t_game *game, int x, int start_y, int end_y, int color);
 void 			put_pixel_to_image(t_game *g, char *img_data, int x, int y, int color, int bpp, int size_line);
-void			cast_3d_walls(t_game *game);
+// void			cast_3d_walls(t_game *game);
 int				is_released(int keycode, t_game *game);
 int				is_pressed(int keycode, t_game *game);
+void			draw_textured_wall(t_game *game);
+void			cast_3d_walls(t_game *game);
+
 
 #endif

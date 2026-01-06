@@ -10,7 +10,7 @@ void horizontal_intersection_check(t_game *game)
     if (rayangle > 0 && rayangle < PI) // looking down
         game->engine->near_y = floor(game->player->y / TILESIZE) * TILESIZE + TILESIZE;
     else // looking up
-        game->engine->near_y = floor(game->player->y / TILESIZE) * TILESIZE - 1; // small offset for top-left corner
+        game->engine->near_y = floor(game->player->y / TILESIZE) * TILESIZE - 0.001; // small offset for top-left corner
     game->engine->near_x = game->player->x + (game->engine->near_y - game->player->y ) / tan(rayangle);
     if (rayangle > 0 && rayangle < PI) // looking down
         game->engine->y_step = TILESIZE;
@@ -36,7 +36,7 @@ void vertical_intersection_check(t_game *game)
 
     rayangle = normalize_angle(game->engine->ray_angle);
     if (rayangle < 1.5 * PI && rayangle > 0.5 * PI) // looking left
-        game->engine->near_x = floor(game->player->x / TILESIZE) * TILESIZE - 1; // offset for top-left corner
+        game->engine->near_x = floor(game->player->x / TILESIZE) * TILESIZE - 0.001; // offset for top-left corner
     else // looking right
         game->engine->near_x = floor(game->player->x / TILESIZE) * TILESIZE + TILESIZE;
     game->engine->near_y = game->player->y + (game->engine->near_x - game->player->x) * tan(rayangle);

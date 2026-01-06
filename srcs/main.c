@@ -31,7 +31,6 @@ int	main(int ac, char **av)
 	mlx_hook(game->engine->mlx_win, 3, 1L << 1, is_released, game);
 	mlx_loop_hook(game->engine->mlx, handle_input, game);
 	
-
 	mlx_loop(game->engine->mlx);
 	return (0);
 }
