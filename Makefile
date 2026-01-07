@@ -11,12 +11,14 @@ SRCS = $(wildcard srcs/parsing/*.c) $(wildcard srcs/Raycasting/*.c) srcs/main.c
 
 OBJS = $(SRCS:.c=.o)
 
+HEADER = $(wildcard includdes/ *.h)
+
 all: $(LIBFT) $(NAME)
 
 $(NAME): $(OBJS)
 	$(CC) $(OBJS) $(LIBFT) $(MLX_FLAGS) -o $(NAME)
 
-%.o: %.c
+%.o: %.c $(HEADER)
 	$(CC) $(CFLAGS) -I/usr/include -Iminilibx-linux -c $< -o $@
 
 $(LIBFT):
