@@ -6,7 +6,7 @@
 /*   By: aelbouss <aelbouss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/30 18:05:30 by rmaanane          #+#    #+#             */
-/*   Updated: 2026/01/04 15:57:01 by aelbouss         ###   ########.fr       */
+/*   Updated: 2026/01/07 16:19:39 by aelbouss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ char	*clean_line(char *line)
 }
 
 char	**resize_map(t_game *game, char **map, int map_height, int fd)
-		// make space for the new line + NULL
+	// make space for the new line + NULL
 {
 	char	**tmp;
 	// 1 new line (We reserved the line) + 1 NULL

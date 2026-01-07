@@ -1,14 +1,11 @@
 #include  "../includes/game.h"
 
 
-// Helper to load one texture and get its data
 void load_texture(t_game *game, t_img *tex, char *path)
 {
     tex->image = mlx_xpm_file_to_image(game->engine->mlx, path, &tex->width, &tex->height);
     if (!tex->image)
         exit_error(game, "Error\nTexture load failed", 1);
-    
-    // THIS IS THE CRITICAL MISSING STEP:
     tex->addr = mlx_get_data_addr(tex->image, &tex->bpp, &tex->line_len, &tex->endian);
 }
 

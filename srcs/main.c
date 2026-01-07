@@ -3,7 +3,7 @@
 
 int    cross_exit(t_game *game)
 {
-    mlx_destroy_window(game->engine->mlx, game->engine->mlx_win);
+    clean_game(game);
 	// need  to  free all resources
     ft_putendl_fd("X detected", 2);
     exit(0);

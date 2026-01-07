@@ -44,6 +44,13 @@ void	destroy_game(t_game *game) // will free all the allocations
 
 void	initialize_game_utils(t_game *game)
 {
+	game->engine->mlx = NULL;
+	game->engine->mlx_win = NULL;
+	game->map = NULL;
+	game->tex->no = NULL;
+	game->tex->so = NULL;
+	game->tex->we = NULL;
+	game->tex->ea = NULL;
     game->map_height = 0;
     game->map_started = 0;
     game->tex->no = NULL;
@@ -65,11 +72,11 @@ void	setup_engine(t_game *game)
 	game->engine->mlx = mlx_init();
 	if (!game->engine->mlx)
 		return (destroy_game(game),ft_putstr_fd("unable connecting to the server", 2));
+	game->engine->mlx_win = mlx_new_window(game->engine->mlx, SCREEN_W, SCREEN_H , "cub3d");
 	game->engine->map_h = game->map_height * TILESIZE;
 	game->engine->map_w = ft_strlen(game->map[0]) * TILESIZE;
 	game->player->fov = 60 * (PI / 180);
 	game->engine->dist_proj_plane = (game->engine->map_w / 2) / tan(game->player->fov / 2.0);
-	game->engine->mlx_win = mlx_new_window(game->engine->mlx, game->engine->map_w , game->engine->map_h , "cub3d");
 	if (!game->engine->mlx_win)
 		return (destroy_game2(game),ft_putstr_fd("unable to open mlx window", 2));
 	set_player_angle(game);
