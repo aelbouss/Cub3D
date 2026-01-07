@@ -9,7 +9,7 @@ t_game	*build_base()
 		return (ft_putstr_fd("Bad Allocation", STDERR_FILENO) , NULL);
 	game->colors = malloc(1 * sizeof(t_colors));
 	if (!game->colors)
-	return (free(game),ft_putstr_fd("Bad Allocation", STDERR_FILENO), NULL);
+		return (free(game),ft_putstr_fd("Bad Allocation", STDERR_FILENO), NULL);
 	game->tex = malloc(1 * sizeof(t_textures));
 	if (!game->tex)
 		return (free(game->colors), free(game), NULL);
