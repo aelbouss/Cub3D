@@ -178,7 +178,8 @@ void			exit_error(t_game *game, char *msg, int fd);
 
 // utils2
 int				get_identifier_index(char *line);
-void			process_texture_data(t_game *game, char *line, char *path);
+void 			process_textures_we_and_ea(t_game *game, char *line, char *path, int fd);
+void			process_texture_data(t_game *game, char *line, char *path, int fd);
 void			process_color_data(t_game *game, char *line, char *path,
 					int fd);
 void			parse_identifier(t_game *game, char *line, int fd);
