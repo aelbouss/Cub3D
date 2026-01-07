@@ -23,6 +23,7 @@ void	raycasting(t_game *game)
 int	main(int ac, char **av)
 {
 	t_game	*game;
+	char	**dup_2;
 	int	fd;
 
 	if (ac != 2)
@@ -39,6 +40,9 @@ int	main(int ac, char **av)
 	game = build_base();
 	initialize_game_utils(game);
 	parse_map(game, fd);
+	dup_2 = dup_map(game);
+	flood_fill(dup_2, game, game->player->pos_x, game->player->pos_y, fd);
+	free(dup_2);
 	raycasting(game);
 	return (0);
 }

@@ -68,7 +68,7 @@ int has_wall(double x, double y, t_game *game)
     return (0);
 }
 
-#define CLIP 40 // Distance to keep from the wall
+ // Distance to keep from the wall
 
 void move_with_collision(t_game *game, double move_x, double move_y)
 {
@@ -214,13 +214,13 @@ double normalize_angle(double angle)
 
 void	rotate_left(t_game *game)
 {
-	game->player->p_angle -= 0.1;
+	game->player->p_angle -= 0.075;
 	game->player->p_angle = normalize_angle(game->player->p_angle);
 }
 
 void	rotate_right(t_game *game)
 {
-	game->player->p_angle += 0.1;
+	game->player->p_angle += 0.075;
 	game->player->p_angle = normalize_angle(game->player->p_angle);
 }
 

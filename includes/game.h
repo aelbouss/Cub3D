@@ -33,6 +33,7 @@
 # define d 100
 # define TILESIZE 64
 # define PLAYERSPEED 3
+# define CLIP 10
 # define WALL_H 64
 # define PI 3.141592653589793
 # define RED 0xFF0000
@@ -40,7 +41,7 @@
 # define BLUE 0X0000FF
 
 # define SCREEN_H 720
-# define SCREEN_W 1248
+# define SCREEN_W 1280
 
 
 
@@ -92,6 +93,8 @@ typedef struct s_player
 {
 	double			x;
 	double			y;
+	int				pos_x;
+	int				pos_y;
 	char			dir; // 'N', 'S', 'E', 'W'
 	double			p_angle;
 	double			fov;

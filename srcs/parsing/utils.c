@@ -6,7 +6,7 @@
 /*   By: aelbouss <aelbouss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/30 18:05:30 by rmaanane          #+#    #+#             */
-/*   Updated: 2026/01/07 18:09:41 by aelbouss         ###   ########.fr       */
+/*   Updated: 2026/01/07 22:19:15 by aelbouss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,8 @@ void	find_player_pos(t_game *game, int fd)
 					exit_error(game, "Error\nMultiple players!", fd);
 				game->player->x = (double)j * TILESIZE + (TILESIZE / 2.0) ;
 				game->player->y = (double)i * TILESIZE + (TILESIZE / 2.0) ;
+				game->player->pos_x = j;
+				game->player->pos_y = i;
 				game->player->dir = game->map[i][j];
 				player_found = 1;
 			}
