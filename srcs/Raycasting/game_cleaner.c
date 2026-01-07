@@ -39,7 +39,7 @@ void	free_textures(t_game *game)
 	free(game->tex->ea);
 
 	if (game->tex->north.image)
-	mlx_destroy_image(game->engine->mlx, game->tex->north.image);
+		mlx_destroy_image(game->engine->mlx, game->tex->north.image);
 
 	if (game->tex->south.image)
 		mlx_destroy_image(game->engine->mlx, game->tex->south.image);
@@ -67,13 +67,16 @@ void	free_map(char **m)
 		}
 		y++;
 	}
+	free(m);
 	m = NULL;
+	
 }
 void	clean_game(t_game *game)
 {
 	free_map(game->map);
 	free_textures(game);
 	mlx_destroy_window(game->engine->mlx, game->engine->mlx_win);
+	mlx_destroy_display(game->engine->mlx);
 	free(game->engine->mlx);
 	free(game->tex);
 	free(game->colors);

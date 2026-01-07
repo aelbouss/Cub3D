@@ -6,7 +6,7 @@
 /*   By: aelbouss <aelbouss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/30 17:35:50 by rmaanane          #+#    #+#             */
-/*   Updated: 2026/01/07 00:49:35 by aelbouss         ###   ########.fr       */
+/*   Updated: 2026/01/07 18:06:09 by aelbouss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,52 +69,6 @@ void	validate_map(t_game *game, int fd)
 	find_player_pos(game, fd);
 }
 
-void make_map_rectangular(t_game *game)
-{
-    int		i;
-    int		j;
-    int		max_len;
-    char	*new_line;
-
-    // 1. Find the longest line width
-    max_len = 0;
-    i = 0;
-    while (i < game->map_height)
-    {
-        int len = ft_strlen(game->map[i]);
-        if (len > max_len)
-            max_len = len;
-        i++;
-    }
-    game->engine->map_w = max_len * TILESIZE; // Update engine width too
-
-    // 2. Pad every line to max_len
-    i = 0;
-    while (i < game->map_height)
-    {
-        int len = ft_strlen(game->map[i]);
-        if (len < max_len)
-        {
-            new_line = malloc(sizeof(char) * (max_len + 1));
-            if (!new_line)
-                exit_error(game, "Error\nMalloc failed", 2);
-            
-            // Copy existing map content
-            ft_strlcpy(new_line, game->map[i], len + 1);
-            
-            // Fill the rest with spaces
-            j = len;
-            while (j < max_len)
-                new_line[j++] = ' ';
-            new_line[max_len] = '\0';
-
-            free(game->map[i]);
-            game->map[i] = new_line;
-        }
-        i++;
-    }
-}
-
 void	parse_map(t_game *game, int fd)
 {
 	char	*line;
@@ -142,5 +96,4 @@ void	parse_map(t_game *game, int fd)
 	}
 	
 	validate_map(game, fd);
-	make_map_rectangular(game);
 }

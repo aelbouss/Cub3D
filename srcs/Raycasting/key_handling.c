@@ -19,7 +19,7 @@ int	is_pressed(int keycode, t_game *game)
 		exit(1);
 	else if (keycode == 80679312)
 	{
-		mlx_destroy_window(game->engine->mlx, game->engine->mlx_win);
+		clean_game(game);
 		exit(0);
 	}
 	return (0);
