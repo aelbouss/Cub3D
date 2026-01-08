@@ -57,8 +57,8 @@ void	initialize_game_utils(t_game *game)
     game->tex->so = NULL;
     game->tex->we = NULL;
     game->tex->ea = NULL;
-    game->colors->floor = -1;
-    game->colors->ceiling = -1;
+    game->colors->floor = 0;
+    game->colors->ceiling = 0;
 	game->player->move_up = 0;
 	game->player->move_down = 0;
 	game->player->move_left = 0;

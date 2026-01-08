@@ -1,7 +1,7 @@
 NAME = cub3d
 
 CC = cc
-CFLAGS = -Wall -Werror -Wextra -O3
+CFLAGS = -Wall -Werror -Wextra -O3 -g3
 LIBFT_DIR = libft
 LIBFT = $(LIBFT_DIR)/libft.a
 
@@ -11,7 +11,7 @@ SRCS = $(wildcard srcs/parsing/*.c) $(wildcard srcs/Raycasting/*.c) srcs/main.c
 
 OBJS = $(SRCS:.c=.o)
 
-HEADER = $(wildcard includdes/ *.h)
+HEADER = $(wildcard includdes/*.h)
 
 all: $(LIBFT) $(NAME)
 

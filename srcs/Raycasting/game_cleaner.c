@@ -75,7 +75,8 @@ void	clean_game(t_game *game)
 {
 	free_map(game->map);
 	free_textures(game);
-	mlx_destroy_window(game->engine->mlx, game->engine->mlx_win);
+	if (game->engine->mlx_win)
+		mlx_destroy_window(game->engine->mlx, game->engine->mlx_win);
 	mlx_destroy_display(game->engine->mlx);
 	free(game->engine->mlx);
 	free(game->tex);

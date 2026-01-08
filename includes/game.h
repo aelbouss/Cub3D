@@ -32,7 +32,7 @@
 # define q 97
 # define d 100
 # define TILESIZE 64
-# define PLAYERSPEED 3
+# define PLAYERSPEED 2
 # define CLIP 10
 # define WALL_H 64
 # define PI 3.141592653589793
@@ -173,6 +173,7 @@ int				is_map_line(char *line);
 // utils
 char			*clean_line(char *line);
 char			**resize_map(t_game *game, char **map, int map_height, int fd);
+void			make_map_rectangular(t_game *game);
 void			find_player_pos(t_game *gamem, int fd);
 void			exit_error(t_game *game, char *msg, int fd);
 
@@ -259,5 +260,6 @@ void    draw_celling(t_game *game, t_img *img, int x , int y, int color);
 void	calculate_wall_dependencies(t_game *game);
 void	clean_game(t_game *game);
 
+void premature_cleaner(t_game *game, char *err_msg);
 
 #endif

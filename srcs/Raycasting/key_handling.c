@@ -16,8 +16,6 @@ int	is_pressed(int keycode, t_game *game)
 	else if (keycode == RIGHT)
 		game->player->rotate_right = 1;
 	else if (keycode == ESC_KEY)
-		exit(1);
-	else if (keycode == 80679312)
 	{
 		clean_game(game);
 		exit(0);

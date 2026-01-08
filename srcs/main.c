@@ -39,10 +39,11 @@ int	main(int ac, char **av)
     }
 	game = build_base();
 	initialize_game_utils(game);
+	check_file_extension(game, av[1], fd);
 	parse_map(game, fd);
 	dup_2 = dup_map(game);
 	flood_fill(dup_2, game, game->player->pos_x, game->player->pos_y, fd);
-	free(dup_2);
+	free_array(dup_2);
 	raycasting(game);
 	return (0);
 }

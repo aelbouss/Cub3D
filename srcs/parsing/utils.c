@@ -43,6 +43,52 @@ char	**resize_map(t_game *game, char **map, int map_height, int fd)
 	return (tmp);
 }
 
+void make_map_rectangular(t_game *game)
+{
+    int		i;
+    int		j;
+    int		max_len;
+    char	*new_line;
+
+    // 1. Find the longest line width
+    max_len = 0;
+    i = 0;
+    while (i < game->map_height)
+    {
+        int len = ft_strlen(game->map[i]);
+        if (len > max_len)
+            max_len = len;
+        i++;
+    }
+    game->engine->map_w = max_len * TILESIZE; // Update engine width too
+
+    // 2. Pad every line to max_len
+    i = 0;
+    while (i < game->map_height)
+    {
+        int len = ft_strlen(game->map[i]);
+        if (len < max_len)
+        {
+            new_line = malloc(sizeof(char) * (max_len + 1));
+            if (!new_line)
+                exit_error(game, "Error\nMalloc failed", 2);
+            
+            // Copy existing map content
+            ft_strlcpy(new_line, game->map[i], len + 1);
+            
+            // Fill the rest with spaces
+            j = len;
+            while (j < max_len)
+                new_line[j++] = ' ';
+            new_line[max_len] = '\0';
+
+            free(game->map[i]);
+            game->map[i] = new_line;
+        }
+        i++;
+    }
+}
+
 void	find_player_pos(t_game *game, int fd)
 {
 	int (i), (j), (player_found);
@@ -78,12 +124,22 @@ void	exit_error(t_game *game, char *msg, int fd)
 	char	*tmp;
 
 	ft_putendl_fd(msg, 2);
-	free_game(game);
 	tmp = get_next_line(fd);	
 	while (tmp) // clean rest of the file
 	{
 		free(tmp);
 		tmp = get_next_line(fd);
 	}
+	if (game->tex->no)
+		free(game->tex->no);
+	if (game->tex->so)
+		free(game->tex->so);
+	if (game->tex->we)
+		free(game->tex->we);
+	if (game->tex->ea)
+		free(game->tex->ea);
+	premature_cleaner(game, msg);
+	// (void)game;
+	close(fd);
 	exit(1);
 }

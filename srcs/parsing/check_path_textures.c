@@ -12,13 +12,28 @@
 
 #include "../includes/game.h"
 
+void premature_cleaner(t_game *game, char *err_msg)
+{
+	if (game->map)
+		free_array(game->map);
+	if (game->colors)
+		free(game->colors);
+	if (game->tex)
+		free (game->tex);
+	if (game->player)
+		free (game->player);
+	if (game->engine)
+		free (game->engine);
+	if (game)
+		free (game);
+	ft_putstr_fd(err_msg, 2);
+}
+
 void	check_path_textures(t_game *game)
 {
 	char	*paths[4];
-	int		i;
-	int		(len) , (fd);
+	int		(i), (len) , (fd);
 
-	fd  = 0;
 	paths[0] = game->tex->no;
 	paths[1] = game->tex->so;
 	paths[2] = game->tex->we;
@@ -32,11 +47,10 @@ void	check_path_textures(t_game *game)
 			exit_error(game, "Error\nInvalid texture path", fd);
 		len = ft_strlen(paths[i]);
 		if (len < 4 || ft_strcmp((paths[i] + len) - 4, ".xpm") != 0)
-			exit_error(game, "Error\nInvalid texture extension", fd);
+			exit_error(game, "Error\nInvalid texture extension", -1);
 		fd = open(paths[i], O_RDONLY);
 		if (fd == -1)
 			exit_error(game, "Error\nTexture file not found or unreadable", fd);
-		close(fd);
 		i++;
 	}
 }
