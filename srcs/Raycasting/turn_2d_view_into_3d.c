@@ -5,14 +5,31 @@ void load_texture(t_game *game, t_img *tex, char *path)
 {
     tex->image = mlx_xpm_file_to_image(game->engine->mlx, path, &tex->width, &tex->height);
     if (!tex->image)
-        exit_error(game, "Error\nTexture load failed", 1);
+    {
+        ft_putstr_fd("Error\nTexture load failed\n", 2);
+        clean_game(game);
+		exit(1);
+    }
     tex->addr = mlx_get_data_addr(tex->image, &tex->bpp, &tex->line_len, &tex->endian);
 }
 
 void    allocate_img(t_game *game, t_img *img)
 {
     img->image =  mlx_new_image(game->engine->mlx, game->engine->map_w, game->engine->map_h);
+    if (!img->image)
+    {
+        ft_putstr_fd("Error\n Image Allocation Failed\n", 2);
+        clean_game(game);
+		exit(1);   
+    }
     img->addr = mlx_get_data_addr(img->image, &img->bpp, &img->line_len, &img->endian);
+    if (!img->addr)
+    {
+        ft_putstr_fd("Error\n Failed to get image data\n", 2);
+        mlx_destroy_image(game->engine->mlx, img->image);
+        clean_game(game);
+		exit(1);  
+    }
 }
 
 // Updated allocate_textures

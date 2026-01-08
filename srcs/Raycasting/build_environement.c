@@ -67,19 +67,34 @@ void	initialize_game_utils(t_game *game)
 	game->player->rotate_right = 0;
 }
 
+
+
+
 void	setup_engine(t_game *game)
 {
 	game->engine->mlx = mlx_init();
 	if (!game->engine->mlx)
-		return (destroy_game(game),ft_putstr_fd("unable connecting to the server", 2));
+	{
+		ft_putstr_fd("unable connecting to the server", 2);
+		free_array(game->map);
+		clean_textures_paths(game);
+		destroy_game(game);
+		exit(0);
+	}
 	game->engine->mlx_win = mlx_new_window(game->engine->mlx, SCREEN_W, SCREEN_H , "cub3d");
+	if (!game->engine->mlx_win)
+	{
+		ft_putstr_fd("Error occurs while opening the window", 2);
+		mlx_destroy_display(game->engine->mlx);
+		free(game->engine->mlx);
+		free_array(game->map);
+		clean_textures_paths(game);
+		destroy_game(game);
+	}
 	game->engine->map_h = game->map_height * TILESIZE;
 	game->engine->map_w = ft_strlen(game->map[0]) * TILESIZE;
 	game->player->fov = 60 * (PI / 180);
 	game->engine->dist_proj_plane = (game->engine->map_w / 2) / tan(game->player->fov / 2.0);
-	if (!game->engine->mlx_win)
-		return (destroy_game2(game),ft_putstr_fd("unable to open mlx window", 2));
 	set_player_angle(game);
 	allocate_textures(game);
-
 }

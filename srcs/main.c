@@ -4,8 +4,6 @@
 int    cross_exit(t_game *game)
 {
     clean_game(game);
-	// need  to  free all resources
-    ft_putendl_fd("X detected", 2);
     exit(0);
 }
 
@@ -13,7 +11,7 @@ void	raycasting(t_game *game)
 {
 	setup_engine(game);
 	cast_3d_walls(game);
-	mlx_hook(game->engine->mlx_win, 17, 0, cross_exit, game); //17 “window close button clicked” → 0 no mask needed
+	mlx_hook(game->engine->mlx_win, 17, 0, cross_exit, game);
 	mlx_hook(game->engine->mlx_win, 2, 1L << 0, is_pressed, game);
 	mlx_hook(game->engine->mlx_win, 3, 1L << 1, is_released, game);
 	mlx_loop_hook(game->engine->mlx, handle_input, game);

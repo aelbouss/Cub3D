@@ -260,6 +260,9 @@ void    draw_celling(t_game *game, t_img *img, int x , int y, int color);
 void	calculate_wall_dependencies(t_game *game);
 void	clean_game(t_game *game);
 
-void premature_cleaner(t_game *game, char *err_msg);
+void		premature_cleaner(t_game *game, char *err_msg);
+void		clean_textures_paths(t_game *game);
+void		free_textures(t_game *game);
+void		clean_game(t_game *game);
 
 #endif
