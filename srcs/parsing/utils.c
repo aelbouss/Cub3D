@@ -6,7 +6,7 @@
 /*   By: rmaanane <ridamaanane@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/30 18:05:30 by rmaanane          #+#    #+#             */
-/*   Updated: 2026/01/09 03:04:48 by rmaanane         ###   ########.fr       */
+/*   Updated: 2026/01/09 22:47:38 by rmaanane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,8 @@ void	exit_error(t_game *game, char *msg, int fd)
 	char	*tmp;
 
 	ft_putendl_fd(msg, 2);
+	if (game->current_line)
+		free(game->current_line);
 	tmp = get_next_line(fd);
 	while (tmp)
 	{

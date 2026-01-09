@@ -6,7 +6,7 @@
 /*   By: rmaanane <ridamaanane@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/30 18:08:59 by rmaanane          #+#    #+#             */
-/*   Updated: 2026/01/08 00:39:37 by rmaanane         ###   ########.fr       */
+/*   Updated: 2026/01/09 23:27:13 by rmaanane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,7 @@ void	process_textures_we_and_ea(t_game *game, char *line, char *path, int fd)
 	if (!ft_strncmp(line, "WE", 2))
 	{
 		if (game->tex->got_we)
-		{
-			free(line);
 			exit_error(game, "Error\nDuplicate WE identifier", fd);
-		}
 		game->tex->identifiers_count++;
 		game->tex->got_we++;
 		game->tex->we = clean_line(path);
@@ -38,10 +35,7 @@ void	process_textures_we_and_ea(t_game *game, char *line, char *path, int fd)
 	else if (!ft_strncmp(line, "EA", 2))
 	{
 		if (game->tex->got_ea)
-		{
-			free(line);
 			exit_error(game, "Error\nDuplicate EA identifier", fd);
-		}
 		game->tex->identifiers_count++;
 		game->tex->got_ea++;
 		game->tex->ea = clean_line(path);
@@ -53,10 +47,7 @@ void	process_texture_data(t_game *game, char *line, char *path, int fd)
 	if (!ft_strncmp(line, "NO", 2))
 	{
 		if (game->tex->got_no)
-		{
-			free(line);
 			exit_error(game, "Error\nDuplicate NO identifier", fd);
-		}
 		game->tex->identifiers_count++;
 		game->tex->got_no++;
 		game->tex->no = clean_line(path);
@@ -64,10 +55,7 @@ void	process_texture_data(t_game *game, char *line, char *path, int fd)
 	else if (!ft_strncmp(line, "SO", 2))
 	{
 		if (game->tex->got_so)
-		{
-			free(line);
 			exit_error(game, "Error\nDuplicate SO identifier", fd);
-		}
 		game->tex->identifiers_count++;
 		game->tex->got_so++;
 		game->tex->so = clean_line(path);
@@ -80,24 +68,18 @@ void	process_color_data(t_game *game, char *line, char *path, int fd)
 	if (!ft_strncmp(line, "F", 1))
 	{
 		if (game->colors->got_floor)
-		{
-			free(line);
 			exit_error(game, "Error\nDuplicate F identifier", fd);
-		}
 		game->colors->color_count++;
 		game->colors->got_floor++;
-		game->colors->floor = parse_color(game, line, path, fd);
+		game->colors->floor = parse_color(game, path, fd);
 	}
 	else if (!ft_strncmp(line, "C", 1))
 	{
 		if (game->colors->got_ceiling)
-		{
-			free(line);
 			exit_error(game, "Error\nDuplicate C identifier", fd);
-		}
 		game->colors->color_count++;
 		game->colors->got_ceiling++;
-		game->colors->ceiling = parse_color(game, line, path, fd);
+		game->colors->ceiling = parse_color(game, path, fd);
 	}
 }
 

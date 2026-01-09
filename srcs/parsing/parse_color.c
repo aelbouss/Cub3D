@@ -6,7 +6,7 @@
 /*   By: rmaanane <ridamaanane@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/30 18:04:18 by rmaanane          #+#    #+#             */
-/*   Updated: 2026/01/09 03:56:04 by rmaanane         ###   ########.fr       */
+/*   Updated: 2026/01/09 23:26:52 by rmaanane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int	ft_arrlen(char **arr)
 	return (i);
 }
 
-void	validate_color_arr(char **arr, t_game *game, char *line, int fd)
+void	validate_color_arr(char **arr, t_game *game, int fd)
 {
 	int	i;
 
@@ -52,7 +52,6 @@ void	validate_color_arr(char **arr, t_game *game, char *line, int fd)
 	if (!arr || ft_arrlen(arr) != 3)
 	{
 		free_array(arr);
-		free(line);
 		exit_error(game, "Error\nInvalid color format", fd);
 	}
 	while (i < 3)
@@ -60,14 +59,13 @@ void	validate_color_arr(char **arr, t_game *game, char *line, int fd)
 		if (!is_number(arr[i]))
 		{
 			free_array(arr);
-			free(line);
 			exit_error(game, "Error\nInvalid color", fd);
 		}
 		i++;
 	}
 }
 
-int	parse_color(t_game *game, char *line, char *path, int fd)
+int	parse_color(t_game *game, char *path, int fd)
 {
 	char	**arr;
 	char	*clean;
@@ -78,14 +76,13 @@ int	parse_color(t_game *game, char *line, char *path, int fd)
 	clean = clean_line(path);
 	arr = ft_split(clean, ',');
 	free(clean);
-	validate_color_arr(arr, game, line, fd);
+	validate_color_arr(arr, game, fd);
 	r = ft_atoi(arr[0]);
 	g = ft_atoi(arr[1]);
 	b = ft_atoi(arr[2]);
 	if (r < 0 || r > 255 || g < 0 || g > 255 || b < 0 || b > 255)
 	{
 		free_array(arr);
-		free(line);
 		exit_error(game, "Error\nColor out of range", fd);
 	}
 	free_array(arr);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aelbouss <aelbouss@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rmaanane <ridamaanane@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/09 16:08:23 by aelbouss          #+#    #+#             */
-/*   Updated: 2026/01/09 16:08:24 by aelbouss         ###   ########.fr       */
+/*   Updated: 2026/01/09 23:15:27 by rmaanane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,10 +50,11 @@ int	main(int ac, char **av)
 	game = build_base();
 	initialize_game_utils(game);
 	check_file_extension(game, av[1], fd);
+	init_struct(game);
 	parse_map(game, fd);
 	dup_2 = dup_map(game);
 	flood_fill(dup_2, game, *game->player_pos, fd);
+	close(fd);
 	free_array(dup_2);
 	raycasting(game);
-	return (0);
 }

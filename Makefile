@@ -1,4 +1,4 @@
-NAME = cub3d
+NAME = cub3D
 
 CC = cc
 CFLAGS = -Wall -Werror -Wextra -O3 -g3
@@ -11,7 +11,7 @@ SRCS = $(wildcard srcs/parsing/*.c) $(wildcard srcs/Raycasting/*.c) srcs/main.c
 
 OBJS = $(SRCS:.c=.o)
 
-HEADER = $(wildcard includdes/*.h)
+HEADER = $(wildcard includes/*.h)
 
 all: $(LIBFT) $(NAME)
 

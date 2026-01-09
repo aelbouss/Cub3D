@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   build_environement.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aelbouss <aelbouss@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rmaanane <ridamaanane@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/09 15:23:42 by aelbouss          #+#    #+#             */
-/*   Updated: 2026/01/09 15:52:51 by aelbouss         ###   ########.fr       */
+/*   Updated: 2026/01/09 21:06:38 by rmaanane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ t_game	*build_base(void)
 	return (game);
 }
 
-void	destroy_game(t_game *game) // will free all the allocations
+void	destroy_game(t_game *game)
 {
 	free(game->tex);
 	game->tex = NULL;

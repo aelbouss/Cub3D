@@ -6,7 +6,7 @@
 /*   By: rmaanane <ridamaanane@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/30 17:35:50 by rmaanane          #+#    #+#             */
-/*   Updated: 2026/01/09 02:30:16 by rmaanane         ###   ########.fr       */
+/*   Updated: 2026/01/09 23:20:14 by rmaanane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ void	store_map_line(t_game *game, char *line, int fd)
 void	init_struct(t_game *game)
 {
 	game->map = NULL;
+	game->current_line = NULL;
 	game->tex->identifiers_count = 0;
 	game->colors->color_count = 0;
 	game->tex->got_no = 0;
@@ -66,16 +67,17 @@ void	validate_map(t_game *game, int fd)
 	check_the_borders(game, fd);
 	check_side_borders(game, fd);
 	find_player_pos(game, fd);
+	make_map_rectangular(game);
 }
 
 void	parse_map(t_game *game, int fd)
 {
 	char	*line;
 
-	init_struct(game);
 	line = get_next_line(fd);
 	while (line)
 	{
+		game->current_line = line;
 		if (is_empty_line(line) && !game->map_started)
 		{
 			free(line);
@@ -83,16 +85,16 @@ void	parse_map(t_game *game, int fd)
 			continue ;
 		}
 		if (is_empty_line(line) && game->map_started)
-			(free(line), exit_error(game, "Error\nVoid after map start", fd));
+			exit_error(game, "Error\nVoid after map start", fd);
 		if (!game->map_started && is_identifier(line))
 			parse_identifier(game, line, fd);
 		else if (is_map_line(line))
 			store_map_line(game, line, fd);
 		else
-			(free(line), exit_error(game, "Error\nInvalid line", fd));
+			exit_error(game, "Error\nInvalid line", fd);
 		free(line);
 		line = get_next_line(fd);
 	}
+	game->current_line = NULL;
 	validate_map(game, fd);
-	make_map_rectangular(game);
 }

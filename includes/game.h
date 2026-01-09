@@ -141,6 +141,7 @@ typedef struct s_game
 	int				map_started;
 	int				map_height;
 	int				map_width;
+	char			*current_line;
 	t_textures		*tex;
 	t_colors		*colors;
 	t_player		*player;
@@ -151,9 +152,8 @@ typedef struct s_game
 // parse_color
 int					is_number(char *str);
 int					ft_arrlen(char **arr);
-void				validate_color_arr(char **arr, t_game *game, char *line,
-						int fd);
-int					parse_color(t_game *game, char *line, char *path, int fd);
+void				validate_color_arr(char **arr, t_game *game, int fd);
+int					parse_color(t_game *game, char *path, int fd);
 
 // parse_map
 void				init_struct(t_game *game);
