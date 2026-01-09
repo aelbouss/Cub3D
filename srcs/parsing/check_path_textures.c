@@ -32,7 +32,7 @@ void	check_path_textures(t_game *game)
 {
 	char	*paths[4];
 
-	int (i), (len), (fd);
+	int (i), (fd);
 	paths[0] = game->tex->no;
 	paths[1] = game->tex->so;
 	paths[2] = game->tex->we;
@@ -44,8 +44,7 @@ void	check_path_textures(t_game *game)
 			exit_error(game, "Error\nMissing texture", fd);
 		if (ft_strlen(paths[i]) < 4)
 			exit_error(game, "Error\nInvalid texture path", fd);
-		len = ft_strlen(paths[i]);
-		if (len < 4 || ft_strcmp((paths[i] + len) - 4, ".xpm") != 0)
+		if (ft_strcmp((paths[i] + ft_strlen(paths[i])) - 4, ".xpm") != 0)
 			exit_error(game, "Error\nInvalid texture extension", -1);
 		fd = open(paths[i], O_RDONLY);
 		if (fd == -1)
