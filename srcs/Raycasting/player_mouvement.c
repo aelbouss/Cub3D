@@ -1,162 +1,76 @@
-# include "../includes/game.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   player_mouvement.c                                 :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: aelbouss <aelbouss@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/01/09 15:52:45 by aelbouss          #+#    #+#             */
+/*   Updated: 2026/01/09 16:04:27 by aelbouss         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-void	set_player_angle(t_game *game)
+#include "../includes/game.h"
+
+void	move_with_collision(t_game *game, double move_x, double move_y)
 {
+	double	new_x;
+	double	new_y;
+	double	padding_x;
+	double	padding_y;
 
-	if (game->player->dir == 'S')
-		game->player->p_angle = PI / 2 ;
-	if (game->player->dir == 'N')
-		game->player->p_angle = 3 * PI / 2;
-	if (game->player->dir == 'E')
-		game->player->p_angle = 0;
-	if (game->player->dir == 'W')
-		game->player->p_angle = PI;
+	new_x = game->player->x + move_x;
+	if (move_x > 0)
+		padding_x = CLIP;
+	else
+		padding_x = -CLIP;
+	if (!has_wall(new_x + padding_x, game->player->y, game))
+		game->player->x = new_x;
+	new_y = game->player->y + move_y;
+	if (move_y > 0)
+		padding_y = CLIP;
+	else
+		padding_y = -CLIP;
+	if (!has_wall(game->player->x, new_y + padding_y, game))
+		game->player->y = new_y;
 }
 
-int has_wall(double x, double y, t_game *game)
+void	walk_forward(t_game *game)
 {
-    int map_x;
-    int map_y;
+	double	move_x;
+	double	move_y;
 
-    if (x < 0 || y < 0)
-        return (1); // Consider outside the world as a wall
-
-    map_x = floor(x / TILESIZE);
-    map_y = floor(y / TILESIZE);
-
-    // 1. Check strict bounds
-    if (map_y >= game->map_height)
-        return (1);
-    // Since we padded the map, we can just check the first line's length
-    // or keep it safe by checking strlen of the specific line
-    if (map_x >= (int)ft_strlen(game->map[map_y]))
-        return (1);
-
-    // 2. Check for Wall ('1')
-    if (game->map[map_y][map_x] == '1')
-        return (1);
-        
-    // 3. (Optional) Treat spaces as walls to fix your "walking through" issue
-    // if (game->map[map_y][map_x] == ' ')
-    //     return (1);
-
-    return (0);
+	move_x = cos(game->player->p_angle) * PLAYERSPEED;
+	move_y = sin(game->player->p_angle) * PLAYERSPEED;
+	move_with_collision(game, move_x, move_y);
 }
 
- // Distance to keep from the wall
-
-void move_with_collision(t_game *game, double move_x, double move_y)
+void	walk_backward(t_game *game)
 {
-    double new_x;
-    double new_y;
-    double padding_x;
-    double padding_y;
+	double	move_x;
+	double	move_y;
 
-    new_x = game->player->x + move_x;
-    
-    // 1. Determine padding for X without ternary operator
-    if (move_x > 0)
-        padding_x = CLIP;
-    else
-        padding_x = -CLIP;
-
-    // 2. Try moving along X axis
-    if (!has_wall(new_x + padding_x, game->player->y, game))
-        game->player->x = new_x;
-
-    new_y = game->player->y + move_y;
-
-    // 3. Determine padding for Y without ternary operator
-    if (move_y > 0)
-        padding_y = CLIP;
-    else
-        padding_y = -CLIP;
-
-    // 4. Try moving along Y axis (using potentially updated X)
-    if (!has_wall(game->player->x, new_y + padding_y, game))
-        game->player->y = new_y;
-}
- 
-
-void walk_forward(t_game *game)
-{
-    double move_x;
-    double move_y;
-
-    move_x = cos(game->player->p_angle) * PLAYERSPEED;
-    move_y = sin(game->player->p_angle) * PLAYERSPEED;
-
-    move_with_collision(game, move_x, move_y);
+	move_x = -cos(game->player->p_angle) * PLAYERSPEED;
+	move_y = -sin(game->player->p_angle) * PLAYERSPEED;
+	move_with_collision(game, move_x, move_y);
 }
 
-void walk_backward(t_game *game)
+void	walk_left(t_game *game)
 {
-    double move_x;
-    double move_y;
+	double	move_x;
+	double	move_y;
 
-    move_x = -cos(game->player->p_angle) * PLAYERSPEED;
-    move_y = -sin(game->player->p_angle) * PLAYERSPEED;
-
-    move_with_collision(game, move_x, move_y);
+	move_x = sin(game->player->p_angle) * PLAYERSPEED;
+	move_y = -cos(game->player->p_angle) * PLAYERSPEED;
+	move_with_collision(game, move_x, move_y);
 }
 
-void walk_left(t_game *game)
+void	walk_right(t_game *game)
 {
-    double move_x;
-    double move_y;
+	double	move_x;
+	double	move_y;
 
-    move_x = sin(game->player->p_angle) * PLAYERSPEED;
-    move_y = -cos(game->player->p_angle) * PLAYERSPEED;
-
-    move_with_collision(game, move_x, move_y);
-}
-
-void walk_right(t_game *game)
-{
-    double move_x;
-    double move_y;
-
-    move_x = -sin(game->player->p_angle) * PLAYERSPEED;
-    move_y = cos(game->player->p_angle) * PLAYERSPEED;
-
-    move_with_collision(game, move_x, move_y);
-}
-
-double normalize_angle(double angle)
-{
-	angle = fmod(angle, 2 * PI);
-	if (angle < 0)
-		angle += 2 * PI;
-	return (angle);
-}
-
-void	rotate_left(t_game *game)
-{
-	game->player->p_angle -= 0.01;
-	game->player->p_angle = normalize_angle(game->player->p_angle);
-}
-
-void	rotate_right(t_game *game)
-{
-	game->player->p_angle += 0.01;
-	game->player->p_angle = normalize_angle(game->player->p_angle);
-}
-
-void	draw_player (t_game *game)
-{
-	int	y;
-	int	x;
-
-	y = 0;
-
-	while (y < 10 )
-	{
-		x = 0; 
-		while (x < 10)
-		{
-			mlx_pixel_put(game->engine->mlx, game->engine->mlx_win, game->player->x + x, game->player->y + y, RED);
-			x++;
-		}
-		y++;
-	}
+	move_x = -sin(game->player->p_angle) * PLAYERSPEED;
+	move_y = cos(game->player->p_angle) * PLAYERSPEED;
+	move_with_collision(game, move_x, move_y);
 }

@@ -1,34 +1,31 @@
-# include "../includes/game.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   game_cleaner.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: aelbouss <aelbouss@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/01/09 15:38:45 by aelbouss          #+#    #+#             */
+/*   Updated: 2026/01/09 15:54:32 by aelbouss         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
+#include "../includes/game.h"
 
 void	destroy_game1(t_game *game)
 {
-		free (game->tex);
-		game->tex = NULL;
-		free (game->player);
-		game->player = NULL;
-		free (game->colors);
-		game->colors = NULL;
-		free (game->engine);
-		game->engine = NULL;
-		free (game);
-		game = NULL;
+	free(game->colors);
+	free(game->player);
+	free(game->tex);
+	free(game->player_pos);
 }
 
 void	destroy_game2(t_game *game)
 {
-		free (game->tex);
-		game->tex = NULL;
-		free (game->player);
-		game->player = NULL;
-		free (game->colors);
-		game->colors = NULL;
-		free(game->engine->mlx);
-		game->engine->mlx = NULL;
-		free (game->engine);
-		game->engine = NULL;
-		free (game);
-		game = NULL;
+	ft_putstr_fd("unable connecting to the server", 2);
+	free_array(game->map);
+	clean_textures_paths(game);
+	exit(0);
 }
 
 void	clean_textures_paths(t_game *game)
@@ -36,7 +33,7 @@ void	clean_textures_paths(t_game *game)
 	if (game->tex->so)
 	{
 		free(game->tex->so);
-		game->tex->so = NULL;	
+		game->tex->so = NULL;
 	}
 	if (game->tex->no)
 	{
@@ -51,7 +48,7 @@ void	clean_textures_paths(t_game *game)
 	if (game->tex->ea)
 	{
 		free(game->tex->ea);
-		game->tex->ea = NULL ;
+		game->tex->ea = NULL;
 	}
 }
 
@@ -61,43 +58,19 @@ void	free_textures(t_game *game)
 	free(game->tex->so);
 	free(game->tex->we);
 	free(game->tex->ea);
-
 	if (game->tex->north.image)
 		mlx_destroy_image(game->engine->mlx, game->tex->north.image);
-
 	if (game->tex->south.image)
 		mlx_destroy_image(game->engine->mlx, game->tex->south.image);
 	if (game->tex->east.image)
 		mlx_destroy_image(game->engine->mlx, game->tex->east.image);
-
 	if (game->tex->west.image)
-		mlx_destroy_image (game->engine->mlx, game->tex->west.image);
+		mlx_destroy_image(game->engine->mlx, game->tex->west.image);
 }
 
-
-void	free_map(char **m)
-{
-	int	y;
-
-	y = 0;
-	if (!m)
-		return ;
-	while (m[y])
-	{
-		if (m[y])
-		{
-			free (m[y]);
-			m[y] = NULL;
-		}
-		y++;
-	}
-	free(m);
-	m = NULL;
-	
-}
 void	clean_game(t_game *game)
 {
-	free_map(game->map);
+	free_array(game->map);
 	free_textures(game);
 	if (game->engine->mlx_win)
 		mlx_destroy_window(game->engine->mlx, game->engine->mlx_win);

@@ -1,10 +1,22 @@
-//# include "../includes/cub3d.h"
-# include "../includes/game.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: aelbouss <aelbouss@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/01/09 16:08:23 by aelbouss          #+#    #+#             */
+/*   Updated: 2026/01/09 16:08:24 by aelbouss         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-int    cross_exit(t_game *game)
+//# include "../includes/cub3d.h"
+#include "../includes/game.h"
+
+int	cross_exit(t_game *game)
 {
-    clean_game(game);
-    exit(0);
+	clean_game(game);
+	exit(0);
 }
 
 void	raycasting(t_game *game)
@@ -22,19 +34,19 @@ int	main(int ac, char **av)
 {
 	t_game	*game;
 	char	**dup_2;
-	int	fd;
+	int		fd;
 
 	if (ac != 2)
-    {
-        printf("Usage: %s <map_file.cub>\n", av[0]);
-        return 1;
-    }
+	{
+		printf("Usage: %s <map_file.cub>\n", av[0]);
+		return (1);
+	}
 	fd = open(av[1], O_RDONLY);
-    if (fd < 0)
-    {
-        perror("Error opening file");
-        return (1);
-    }
+	if (fd < 0)
+	{
+		perror("Error opening file");
+		return (1);
+	}
 	game = build_base();
 	initialize_game_utils(game);
 	check_file_extension(game, av[1], fd);

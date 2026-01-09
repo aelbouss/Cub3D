@@ -1,48 +1,90 @@
-#include  "../includes/game.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   textures_handling.c                                :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: aelbouss <aelbouss@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/01/09 15:52:37 by aelbouss          #+#    #+#             */
+/*   Updated: 2026/01/09 16:12:59 by aelbouss         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-// int	allocate_textures(t_game *game)
-// {
-// 	int	height;
-// 	int	width;
+#include "../includes/game.h"
 
-// 	game->tex->wold2d = mlx_new_image(game->engine->mlx, game->engine->map_w, game->engine->map_h);
-// 	if (!game->tex->wold2d)
-// 		return (ft_putstr_fd("Bad image" , 2), 1);
-// 	game->tex->south = mlx_xpm_file_to_image(game->engine->mlx, game->tex->so , &height, &width);
-// 	if (!game->tex->south)
-// 		return (ft_putstr_fd("Bad image" , 2), 1);
-// 	game->tex->north = mlx_xpm_file_to_image(game->engine->mlx, game->tex->no, &height, &width);
-// 	if (!game->tex->north)
-// 		return (ft_putstr_fd("Bad image" , 2), 1);
-// 	game->tex->east = mlx_xpm_file_to_image(game->engine->mlx, game->tex->ea, &height, &width);
-// 	if (!game->tex->east)
-// 		return (ft_putstr_fd("Bad image" , 2), 1);
-// 	game->tex->west = mlx_xpm_file_to_image(game->engine->mlx, game->tex->we, &height, &width);
-// 	if (!game->tex->we)
-// 		return (ft_putstr_fd("Bad image" , 2), 1);
-// 	return (0);
-// }
+unsigned int	get_pixel_color(t_img *tex, int x, int y)
+{
+	char	*dst;
 
-// void	generate_2d_world(t_game *game)
-// {
-// 	int h;
-// 	int	w;
+	if (x < 0 || x >= tex->width || y < 0 || y >= tex->height)
+		return (0);
+	dst = tex->addr + (y * tex->line_len + x * (tex->bpp / 8));
+	return (*(unsigned int *)dst);
+}
 
-// 	h = 0;
-// 	while (game->map[h])
-// 	{
-// 		w = 0;
-// 		while (game->map[h][w])
-// 		{
-// 			if (game->map[h][w] == '1')
-// 				mlx_put_image_to_window(game->engine->mlx, game->engine->mlx_win, game->tex->west, w * TILESIZE , h * TILESIZE);
-// 			if (game->map[h][w] == '0')
-// 				mlx_put_image_to_window(game->engine->mlx, game->engine->mlx_win, game->tex->north, w * TILESIZE , h * TILESIZE);
-// 			if (game->map[h][w] == 'N' || game->map[h][w] == 'S' || game->map[h][w] == 'E' || game->map[h][w] == 'W')
-// 				mlx_put_image_to_window(game->engine->mlx, game->engine->mlx_win, game->tex->east, w * TILESIZE , h * TILESIZE);
-// 			w++;
-// 		}
-// 		h++;
-// 	}
-// }
+t_img	*select_texture(t_game *game, char side)
+{
+	if (side == 'v')
+	{
+		if (game->engine->ray_angle > PI / 2 && game->engine->ray_angle < 3 * PI
+			/ 2)
+			return (&game->tex->west);
+		else
+			return (&game->tex->east);
+	}
+	else
+	{
+		if (game->engine->ray_angle > PI && game->engine->ray_angle < 2 * PI)
+			return (&game->tex->south);
+		else
+			return (&game->tex->north);
+	}
+	return (NULL);
+}
 
+void	allocate_img(t_game *game, t_img *img)
+{
+	img->image = mlx_new_image(game->engine->mlx, game->engine->map_w,
+			game->engine->map_h);
+	if (!img->image)
+	{
+		ft_putstr_fd("Error\n Image Allocation Failed\n", 2);
+		clean_game(game);
+		exit(1);
+	}
+	img->addr = mlx_get_data_addr(img->image, &img->bpp, &img->line_len,
+			&img->endian);
+	if (!img->addr)
+	{
+		ft_putstr_fd("Error\n Failed to get image data\n", 2);
+		mlx_destroy_image(game->engine->mlx, img->image);
+		clean_game(game);
+		exit(1);
+	}
+}
+
+void	draw_wall_texture(t_game *game, t_img *buffer, int x)
+{
+	t_img	*tex;
+	int		y;
+	double	step;
+	double	texpos;
+
+	tex = get_texture_info(game, &game->engine->texx);
+	step = 1.0 * tex->height / game->engine->wall_height;
+	texpos = (game->engine->wall_top_p - ((SCREEN_H / 2)
+				- ((int)game->engine->wall_height / 2))) * step;
+	y = game->engine->wall_top_p;
+	while (y <= game->engine->wall_bottom_p)
+	{
+		game->engine->texy = (int)texpos;
+		if (game->engine->texy >= tex->height)
+			game->engine->texy = tex->height - 1;
+		if (game->engine->texy < 0)
+			game->engine->texy = 0;
+		texpos += step;
+		put_pixel_to_img(buffer, x, y, get_pixel_color(tex, game->engine->texx,
+				game->engine->texy));
+		y++;
+	}
+}
