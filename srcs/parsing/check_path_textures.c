@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_path_textures.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rmaanane <ridamaanane@gmail.com>           +#+  +:+       +#+        */
+/*   By: aelbouss <aelbouss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/30 18:02:34 by rmaanane          #+#    #+#             */
-/*   Updated: 2026/01/09 03:02:12 by rmaanane         ###   ########.fr       */
+/*   Updated: 2026/01/09 16:45:51 by aelbouss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ void	premature_cleaner(t_game *game)
 	if (game->tex)
 		free(game->tex);
 	if (game->player)
+		free(game->player);
+	if (game->player_pos)
 		free(game->player);
 	if (game->engine)
 		free(game->engine);
