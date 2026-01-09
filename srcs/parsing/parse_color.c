@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_color.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aelbouss <aelbouss@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rmaanane <ridamaanane@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/30 18:04:18 by rmaanane          #+#    #+#             */
-/*   Updated: 2026/01/03 20:53:47 by aelbouss         ###   ########.fr       */
+/*   Updated: 2026/01/09 03:50:47 by rmaanane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	is_number(char *str)
 
 	i = 0;
 	if (!str || str[0] == '\0')
-		return (0); // empty string is not a number
+		return (0);
 	while (str[i])
 	{
 		if ((str[i] == '+' || str[i] == '-'))

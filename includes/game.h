@@ -89,12 +89,17 @@ typedef struct s_colors
 	int			got_ceiling;
 }				t_colors;
 
+typedef struct s_player_pos
+{
+	int			x;
+	int			y;
+	int 		player_found;
+}				t_player_pos;
+
 typedef struct s_player
 {
 	double			x;
 	double			y;
-	int				pos_x;
-	int				pos_y;
 	char			dir; // 'N', 'S', 'E', 'W'
 	double			p_angle;
 	double			fov;
@@ -144,6 +149,7 @@ typedef struct s_game
 	t_colors	*colors;
 	t_player	*player;
 	t_raycasting	*engine;
+	t_player_pos *player_pos;
 }				t_game;
 
 // parse_color
@@ -198,7 +204,7 @@ void			free_game(t_game *game);
 
 // flood_fill
 char			**dup_map(t_game *game);
-void 			flood_fill(char **map, t_game *game, int x, int y, int fd);
+void	flood_fill(char **map, t_game *game, t_player_pos player, int fd);
 
 // raycasting prototypes
 
@@ -260,7 +266,7 @@ void    draw_celling(t_game *game, t_img *img, int x , int y, int color);
 void	calculate_wall_dependencies(t_game *game);
 void	clean_game(t_game *game);
 
-void		premature_cleaner(t_game *game, char *err_msg);
+void		premature_cleaner(t_game *game);
 void		clean_textures_paths(t_game *game);
 void		free_textures(t_game *game);
 void		clean_game(t_game *game);

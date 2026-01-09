@@ -3,37 +3,36 @@
 /*                                                        :::      ::::::::   */
 /*   check_path_textures.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aelbouss <aelbouss@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rmaanane <ridamaanane@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/30 18:02:34 by rmaanane          #+#    #+#             */
-/*   Updated: 2026/01/07 00:32:01 by aelbouss         ###   ########.fr       */
+/*   Updated: 2026/01/09 03:02:12 by rmaanane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/game.h"
 
-void premature_cleaner(t_game *game, char *err_msg)
+void	premature_cleaner(t_game *game)
 {
 	if (game->map)
 		free_array(game->map);
 	if (game->colors)
 		free(game->colors);
 	if (game->tex)
-		free (game->tex);
+		free(game->tex);
 	if (game->player)
-		free (game->player);
+		free(game->player);
 	if (game->engine)
-		free (game->engine);
+		free(game->engine);
 	if (game)
-		free (game);
-	ft_putstr_fd(err_msg, 2);
+		free(game);
 }
 
 void	check_path_textures(t_game *game)
 {
 	char	*paths[4];
-	int		(i), (len) , (fd);
 
+	int (i), (len), (fd);
 	paths[0] = game->tex->no;
 	paths[1] = game->tex->so;
 	paths[2] = game->tex->we;

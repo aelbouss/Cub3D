@@ -107,6 +107,6 @@ void	clean_game(t_game *game)
 	free(game->colors);
 	free(game->player);
 	free(game->engine);
+	free(game->player_pos);
 	free(game);
-
 }

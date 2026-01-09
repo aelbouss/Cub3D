@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_map.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aelbouss <aelbouss@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rmaanane <ridamaanane@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/30 17:35:50 by rmaanane          #+#    #+#             */
-/*   Updated: 2026/01/07 18:06:09 by aelbouss         ###   ########.fr       */
+/*   Updated: 2026/01/09 02:30:16 by rmaanane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,7 @@ void	store_map_line(t_game *game, char *line, int fd)
 	game->map_started = 1;
 	cleaned_line = clean_line(line);
 	game->map = resize_map(game, game->map, game->map_height, fd);
-	// add the space for new line
 	game->map[game->map_height] = cleaned_line;
-	// game->map_height(index)
 	game->map_height++;
 }
 
@@ -56,6 +54,7 @@ void	init_struct(t_game *game)
 	game->colors->got_floor = 0;
 	game->colors->got_ceiling = 0;
 	game->map_started = 0;
+	game->player_pos->player_found = 0;
 }
 
 void	validate_map(t_game *game, int fd)

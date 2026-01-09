@@ -1,5 +1,19 @@
 # include "../includes/game.h"
 
+t_player_pos *player_position(t_game *game)
+{
+	t_player_pos *p;
+
+	p = malloc(sizeof(t_player_pos) * 1);
+	if (!p)
+	{
+		free(game->player_pos);
+		free(game);
+		return (NULL);
+	}
+	return (p);
+}
+
 t_game	*build_base()
 {
 	t_game	*game;
@@ -18,11 +32,13 @@ t_game	*build_base()
 		return (free(game->colors), free(game->tex) ,free(game)
 			,ft_putstr_fd("Bad Allocation", STDERR_FILENO), NULL);
 	game->engine = malloc(1 * sizeof(t_raycasting));
+	game->player_pos = player_position(game);
 	if (!game->engine)
 	{
 		free(game->colors);
 		free(game->player);
 		free(game->tex);
+		free(game->player_pos);
 		return (free(game), ft_putstr_fd("Bad Allocation",2), NULL);
 	}
 	return (game);

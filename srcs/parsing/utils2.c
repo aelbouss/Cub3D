@@ -22,7 +22,7 @@ int	get_identifier_index(char *line)
 	return (0);
 }
 
-void process_textures_we_and_ea(t_game *game, char *line, char *path, int fd)
+void	process_textures_we_and_ea(t_game *game, char *line, char *path, int fd)
 {
 	if (!ft_strncmp(line, "WE", 2))
 	{
@@ -74,7 +74,6 @@ void	process_texture_data(t_game *game, char *line, char *path, int fd)
 	}
 	process_textures_we_and_ea(game, line, path, fd);
 }
-
 
 void	process_color_data(t_game *game, char *line, char *path, int fd)
 {
