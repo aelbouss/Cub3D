@@ -6,7 +6,7 @@
 /*   By: rmaanane <ridamaanane@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/30 18:04:18 by rmaanane          #+#    #+#             */
-/*   Updated: 2026/01/09 23:26:52 by rmaanane         ###   ########.fr       */
+/*   Updated: 2026/01/10 01:36:47 by rmaanane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,22 @@ void	validate_color_arr(char **arr, t_game *game, int fd)
 	}
 }
 
+int	count_commas(char *str)
+{
+	int	i;
+	int	count;
+
+	i = 0;
+	count = 0;
+	while (str[i])
+	{
+		if (str[i] == ',')
+			count++;
+		i++;
+	}
+	return (count);
+}
+
 int	parse_color(t_game *game, char *path, int fd)
 {
 	char	**arr;
@@ -74,6 +90,11 @@ int	parse_color(t_game *game, char *path, int fd)
 	int		b;
 
 	clean = clean_line(path);
+	if (count_commas(clean) != 2)
+	{
+		free(clean);
+		exit_error(game, "Error\nInvalid color", fd);
+	}
 	arr = ft_split(clean, ',');
 	free(clean);
 	validate_color_arr(arr, game, fd);

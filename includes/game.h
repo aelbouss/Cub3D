@@ -153,6 +153,7 @@ typedef struct s_game
 int					is_number(char *str);
 int					ft_arrlen(char **arr);
 void				validate_color_arr(char **arr, t_game *game, int fd);
+int					count_commas(char *str);
 int					parse_color(t_game *game, char *path, int fd);
 
 // parse_map
