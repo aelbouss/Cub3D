@@ -19,10 +19,10 @@ int	cross_exit(t_game *game)
 	exit(0);
 }
 
-void	parsing(t_game *game , int fd, char **av)
+void	parsing(t_game *game, int fd, char **av)
 {
 	char	**map_dup;
-	
+
 	initialize_game_utils(game);
 	check_file_extension(game, av[1], fd);
 	init_struct(game);
@@ -30,7 +30,7 @@ void	parsing(t_game *game , int fd, char **av)
 	map_dup = dup_map(game);
 	flood_fill(map_dup, game, *game->player_pos, fd);
 	close(fd);
-	free_array(map_dup);	
+	free_array(map_dup);
 }
 
 void	raycasting(t_game *game)
