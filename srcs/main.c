@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rmaanane <ridamaanane@gmail.com>           +#+  +:+       +#+        */
+/*   By: aelbouss <aelbouss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/09 16:08:23 by aelbouss          #+#    #+#             */
-/*   Updated: 2026/01/09 23:15:27 by rmaanane         ###   ########.fr       */
+/*   Updated: 2026/01/10 04:26:31 by aelbouss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,20 @@ int	cross_exit(t_game *game)
 {
 	clean_game(game);
 	exit(0);
+}
+
+void	parsing(t_game *game , int fd, char **av)
+{
+	char	**map_dup;
+	
+	initialize_game_utils(game);
+	check_file_extension(game, av[1], fd);
+	init_struct(game);
+	parse_map(game, fd);
+	map_dup = dup_map(game);
+	flood_fill(map_dup, game, *game->player_pos, fd);
+	close(fd);
+	free_array(map_dup);	
 }
 
 void	raycasting(t_game *game)
@@ -33,7 +47,6 @@ void	raycasting(t_game *game)
 int	main(int ac, char **av)
 {
 	t_game	*game;
-	char	**dup_2;
 	int		fd;
 
 	if (ac != 2)
@@ -48,13 +61,6 @@ int	main(int ac, char **av)
 		return (1);
 	}
 	game = build_base();
-	initialize_game_utils(game);
-	check_file_extension(game, av[1], fd);
-	init_struct(game);
-	parse_map(game, fd);
-	dup_2 = dup_map(game);
-	flood_fill(dup_2, game, *game->player_pos, fd);
-	close(fd);
-	free_array(dup_2);
+	parsing(game, fd, av);
 	raycasting(game);
 }
