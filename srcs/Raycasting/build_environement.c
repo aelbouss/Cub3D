@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   build_environement.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rmaanane <ridamaanane@gmail.com>           +#+  +:+       +#+        */
+/*   By: aelbouss <aelbouss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/09 15:23:42 by aelbouss          #+#    #+#             */
-/*   Updated: 2026/01/09 21:06:38 by rmaanane         ###   ########.fr       */
+/*   Updated: 2026/01/10 02:16:51 by aelbouss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,7 @@ t_player_pos	*player_position(t_game *game)
 	p = malloc(sizeof(t_player_pos) * 1);
 	if (!p)
 	{
-		free(game->player_pos);
-		free(game);
+		premature_cleaner(game);
 		return (NULL);
 	}
 	return (p);
